@@ -24,5 +24,10 @@ namespace EccoBack.Abstraction
         {
             return new SqlConnection(_connectionString);
         }
+
+        public IDbConnection GetConnectionBI()
+        {
+            return new SqlConnection(_connectionStringBI);
+        }
     }
 }

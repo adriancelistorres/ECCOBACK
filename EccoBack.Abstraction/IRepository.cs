@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 
 namespace EccoBack.Abstraction
 {
-    public interface IRepository<T>
+    public interface IRepository<T> where T : class
     {
-        IList<T> GetProducto();
+        //IList<T> GetProducto();
+        //Task<List<T>> ObtenerTodo();
+        Task<T> Add(T entity);
+        Task<T> Get(int id);
+        Task<List<T>> GetAll();
+        Task<T> Update(T entity);
+        Task<bool> Remove(T entity);
 
 
     }

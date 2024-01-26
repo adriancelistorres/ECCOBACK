@@ -1,0 +1,17 @@
+C:\EccoBack\EccoBack.Abstraction\bin\Release\net7.0\EccoBack.Abstraction.deps.json
+C:\EccoBack\EccoBack.Abstraction\bin\Release\net7.0\EccoBack.Abstraction.runtimeconfig.json
+C:\EccoBack\EccoBack.Abstraction\bin\Release\net7.0\EccoBack.Abstraction.dll
+C:\EccoBack\EccoBack.Abstraction\bin\Release\net7.0\EccoBack.Abstraction.pdb
+C:\EccoBack\EccoBack.Abstraction\bin\Release\net7.0\EccoBack.Entities.dll
+C:\EccoBack\EccoBack.Abstraction\bin\Release\net7.0\EccoBack.Entities.pdb
+C:\EccoBack\EccoBack.Abstraction\obj\Release\net7.0\EccoBack.Abstraction.csproj.AssemblyReference.cache
+C:\EccoBack\EccoBack.Abstraction\obj\Release\net7.0\EccoBack.Abstraction.GeneratedMSBuildEditorConfig.editorconfig
+C:\EccoBack\EccoBack.Abstraction\obj\Release\net7.0\EccoBack.Abstraction.AssemblyInfoInputs.cache
+C:\EccoBack\EccoBack.Abstraction\obj\Release\net7.0\EccoBack.Abstraction.AssemblyInfo.cs
+C:\EccoBack\EccoBack.Abstraction\obj\Release\net7.0\EccoBack.Abstraction.csproj.CoreCompileInputs.cache
+C:\EccoBack\EccoBack.Abstraction\obj\Release\net7.0\EccoBack.Abstraction.csproj.CopyComplete
+C:\EccoBack\EccoBack.Abstraction\obj\Release\net7.0\EccoBack.Abstraction.dll
+C:\EccoBack\EccoBack.Abstraction\obj\Release\net7.0\refint\EccoBack.Abstraction.dll
+C:\EccoBack\EccoBack.Abstraction\obj\Release\net7.0\EccoBack.Abstraction.pdb
+C:\EccoBack\EccoBack.Abstraction\obj\Release\net7.0\EccoBack.Abstraction.genruntimeconfig.cache
+C:\EccoBack\EccoBack.Abstraction\obj\Release\net7.0\ref\EccoBack.Abstraction.dll

@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EccoBack.Abstraction\EccoBack.Abstraction.csproj" />
+    <ProjectReference Include="..\EccoBack.Entities\EccoBack.Entities.csproj" />
+    <ProjectReference Include="..\EccoBack.Repository\EccoBack.Repository.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ROM\ENTEL_TPF\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.15" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Scrutor" Version="4.2.2" />
+  </ItemGroup>
+
+</Project>

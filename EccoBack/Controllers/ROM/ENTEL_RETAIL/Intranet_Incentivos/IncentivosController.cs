@@ -1,4 +1,5 @@
 ﻿using Eccoback.Security.Helpers;
+using EccoBack.Entities.ROM.ENTEL_RETAIL.Models.Incentivos.Dto;
 using EccoBack.Services.ROM.ENTEL_RETAIL.Intranet_Incentivos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,12 +24,12 @@ namespace EccoBack.Controllers.ROM.ENTEL_RETAIL.Intranet_Incentivos
         }
 
         [HttpPost("validateUser")]
-        public IActionResult ValidateUser([FromBody] UsuarioDTO request)
+        public IActionResult ValidateUser([FromBody] UserDTO request)
         {
             string usuario = request.USUARIO;
             string clave = request.CLAVE;
 
-            UsuarioDTO usuarioValidado = _incentivosService.ValidateUser(usuario, clave);
+            UserDTO usuarioValidado = _incentivosService.ValidateUser(usuario, clave);
 
             if (usuarioValidado != null && !string.IsNullOrEmpty(usuarioValidado.USUARIO))
             {
