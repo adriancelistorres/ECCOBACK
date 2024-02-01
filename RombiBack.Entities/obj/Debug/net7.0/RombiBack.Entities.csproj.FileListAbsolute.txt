@@ -1,0 +1,14 @@
+C:\RombiBack\RombiBack.Entities\bin\Debug\net7.0\RombiBack.Entities.deps.json
+C:\RombiBack\RombiBack.Entities\bin\Debug\net7.0\RombiBack.Entities.runtimeconfig.json
+C:\RombiBack\RombiBack.Entities\bin\Debug\net7.0\RombiBack.Entities.dll
+C:\RombiBack\RombiBack.Entities\bin\Debug\net7.0\RombiBack.Entities.pdb
+C:\RombiBack\RombiBack.Entities\obj\Debug\net7.0\RombiBack.Entities.csproj.AssemblyReference.cache
+C:\RombiBack\RombiBack.Entities\obj\Debug\net7.0\RombiBack.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\RombiBack\RombiBack.Entities\obj\Debug\net7.0\RombiBack.Entities.AssemblyInfoInputs.cache
+C:\RombiBack\RombiBack.Entities\obj\Debug\net7.0\RombiBack.Entities.AssemblyInfo.cs
+C:\RombiBack\RombiBack.Entities\obj\Debug\net7.0\RombiBack.Entities.csproj.CoreCompileInputs.cache
+C:\RombiBack\RombiBack.Entities\obj\Debug\net7.0\RombiBack.Entities.dll
+C:\RombiBack\RombiBack.Entities\obj\Debug\net7.0\refint\RombiBack.Entities.dll
+C:\RombiBack\RombiBack.Entities\obj\Debug\net7.0\RombiBack.Entities.pdb
+C:\RombiBack\RombiBack.Entities\obj\Debug\net7.0\RombiBack.Entities.genruntimeconfig.cache
+C:\RombiBack\RombiBack.Entities\obj\Debug\net7.0\ref\RombiBack.Entities.dll

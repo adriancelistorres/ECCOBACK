@@ -1,0 +1,12 @@
+C:\RombiBack\RombiBack.AWS\bin\Debug\net7.0\RombiBack.AWS.deps.json
+C:\RombiBack\RombiBack.AWS\bin\Debug\net7.0\RombiBack.AWS.dll
+C:\RombiBack\RombiBack.AWS\bin\Debug\net7.0\RombiBack.AWS.pdb
+C:\RombiBack\RombiBack.AWS\obj\Debug\net7.0\RombiBack.AWS.csproj.AssemblyReference.cache
+C:\RombiBack\RombiBack.AWS\obj\Debug\net7.0\RombiBack.AWS.GeneratedMSBuildEditorConfig.editorconfig
+C:\RombiBack\RombiBack.AWS\obj\Debug\net7.0\RombiBack.AWS.AssemblyInfoInputs.cache
+C:\RombiBack\RombiBack.AWS\obj\Debug\net7.0\RombiBack.AWS.AssemblyInfo.cs
+C:\RombiBack\RombiBack.AWS\obj\Debug\net7.0\RombiBack.AWS.csproj.CoreCompileInputs.cache
+C:\RombiBack\RombiBack.AWS\obj\Debug\net7.0\RombiBack.AWS.dll
+C:\RombiBack\RombiBack.AWS\obj\Debug\net7.0\refint\RombiBack.AWS.dll
+C:\RombiBack\RombiBack.AWS\obj\Debug\net7.0\RombiBack.AWS.pdb
+C:\RombiBack\RombiBack.AWS\obj\Debug\net7.0\ref\RombiBack.AWS.dll

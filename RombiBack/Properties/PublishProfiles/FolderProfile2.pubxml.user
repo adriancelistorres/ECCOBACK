@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\publicados\ROMBI_ECCONET\PUBLICADO_HOY</_PublishTargetUrl>
+    <History>True|2024-01-24T19:58:10.0130207Z;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="APP_BI">
+      <Value>Data Source=20.0.0.4%3bInitial Catalog=APP_BI%3bUser ID=sauser%3bPassword=949fT#O%25v^20%3bIntegrated Security=false%3bTrustServerCertificate=true</Value>
+    </DestinationConnectionStrings>
+    <DestinationConnectionStrings Include="ENTEL">
+      <Value>Data Source=20.0.0.4%3bInitial Catalog=ENTEL RETAIL%3bUser ID=sauser%3bPassword=949fT#O%25v^20%3bIntegrated Security=false%3bTrustServerCertificate=true</Value>
+    </DestinationConnectionStrings>
+    <DestinationConnectionStrings Include="TPF">
+      <Value>Data Source=20.0.0.4%3bInitial Catalog=TPF ENTEL%3bUser ID=sauser%3bPassword=949fT#O%25v^20%3bIntegrated Security=false%3bTrustServerCertificate=true</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

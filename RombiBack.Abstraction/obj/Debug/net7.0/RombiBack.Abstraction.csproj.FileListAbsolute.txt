@@ -1,0 +1,17 @@
+C:\RombiBack\RombiBack.Abstraction\bin\Debug\net7.0\RombiBack.Abstraction.deps.json
+C:\RombiBack\RombiBack.Abstraction\bin\Debug\net7.0\RombiBack.Abstraction.runtimeconfig.json
+C:\RombiBack\RombiBack.Abstraction\bin\Debug\net7.0\RombiBack.Abstraction.dll
+C:\RombiBack\RombiBack.Abstraction\bin\Debug\net7.0\RombiBack.Abstraction.pdb
+C:\RombiBack\RombiBack.Abstraction\bin\Debug\net7.0\RombiBack.Entities.dll
+C:\RombiBack\RombiBack.Abstraction\bin\Debug\net7.0\RombiBack.Entities.pdb
+C:\RombiBack\RombiBack.Abstraction\obj\Debug\net7.0\RombiBack.Abstraction.csproj.AssemblyReference.cache
+C:\RombiBack\RombiBack.Abstraction\obj\Debug\net7.0\RombiBack.Abstraction.GeneratedMSBuildEditorConfig.editorconfig
+C:\RombiBack\RombiBack.Abstraction\obj\Debug\net7.0\RombiBack.Abstraction.AssemblyInfoInputs.cache
+C:\RombiBack\RombiBack.Abstraction\obj\Debug\net7.0\RombiBack.Abstraction.AssemblyInfo.cs
+C:\RombiBack\RombiBack.Abstraction\obj\Debug\net7.0\RombiBack.Abstraction.csproj.CoreCompileInputs.cache
+C:\RombiBack\RombiBack.Abstraction\obj\Debug\net7.0\RombiBack.Abstraction.csproj.CopyComplete
+C:\RombiBack\RombiBack.Abstraction\obj\Debug\net7.0\RombiBack.Abstraction.dll
+C:\RombiBack\RombiBack.Abstraction\obj\Debug\net7.0\refint\RombiBack.Abstraction.dll
+C:\RombiBack\RombiBack.Abstraction\obj\Debug\net7.0\RombiBack.Abstraction.pdb
+C:\RombiBack\RombiBack.Abstraction\obj\Debug\net7.0\RombiBack.Abstraction.genruntimeconfig.cache
+C:\RombiBack\RombiBack.Abstraction\obj\Debug\net7.0\ref\RombiBack.Abstraction.dll

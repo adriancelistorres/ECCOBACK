@@ -1,0 +1,12 @@
+C:\RombiBack\RombiBack.Security\bin\Debug\net7.0\RombiBack.Security.deps.json
+C:\RombiBack\RombiBack.Security\bin\Debug\net7.0\RombiBack.Security.dll
+C:\RombiBack\RombiBack.Security\bin\Debug\net7.0\RombiBack.Security.pdb
+C:\RombiBack\RombiBack.Security\obj\Debug\net7.0\RombiBack.Security.csproj.AssemblyReference.cache
+C:\RombiBack\RombiBack.Security\obj\Debug\net7.0\RombiBack.Security.GeneratedMSBuildEditorConfig.editorconfig
+C:\RombiBack\RombiBack.Security\obj\Debug\net7.0\RombiBack.Security.AssemblyInfoInputs.cache
+C:\RombiBack\RombiBack.Security\obj\Debug\net7.0\RombiBack.Security.AssemblyInfo.cs
+C:\RombiBack\RombiBack.Security\obj\Debug\net7.0\RombiBack.Security.csproj.CoreCompileInputs.cache
+C:\RombiBack\RombiBack.Security\obj\Debug\net7.0\RombiBack.Security.dll
+C:\RombiBack\RombiBack.Security\obj\Debug\net7.0\refint\RombiBack.Security.dll
+C:\RombiBack\RombiBack.Security\obj\Debug\net7.0\RombiBack.Security.pdb
+C:\RombiBack\RombiBack.Security\obj\Debug\net7.0\ref\RombiBack.Security.dll
