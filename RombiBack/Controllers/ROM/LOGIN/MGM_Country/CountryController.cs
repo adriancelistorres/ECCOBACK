@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RombiBack.Services.ROM.LOGIN.Company;
 using RombiBack.Services.ROM.LOGIN.MGM_Country;
+using System.Text.Json;
 
 namespace RombiBack.Controllers.ROM.LOGIN.MGM_Country
 {
@@ -19,7 +20,10 @@ namespace RombiBack.Controllers.ROM.LOGIN.MGM_Country
         public async Task<IActionResult> GetCountries()
         {
             var countries= await _countryService.GetAll();
-            return Ok(countries);
+            string jsonString = JsonSerializer.Serialize(countries);
+
+            //return Ok(countries);
+            return Content(jsonString, "application/json");
         }
     }
 }
