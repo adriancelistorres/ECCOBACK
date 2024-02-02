@@ -10,7 +10,11 @@ namespace RombiBack.Entities.ROM.LOGIN.Country
     {
         public string? COD_PAIS { get; set; }
         public string? DESCRIPCION { get; set; }
+        //public bool? VISIBLE { get; set; }
         public int? VISIBLE { get; set; }
+
+        //public bool? ESTADO { get; set; }
         public int? ESTADO { get; set; }
+
     }
 }

@@ -5,6 +5,8 @@ using RombiBack.Entities.ROM.ENTEL_RETAIL.Models.Producto.Dto;
 using RombiBack.Entities.ROM.ENTEL_RETAIL.Models.Reports;
 using RombiBack.Entities.ROM.ENTEL_RETAIL.Models.Reports.DTO;
 using RombiBack.Entities.ROM.LOGIN.Company;
+using RombiBack.Entities.ROM.LOGIN.Country;
+using RombiBack.Entities.ROM.LOGIN.UserType;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +26,8 @@ namespace EccoBack.Abstraction.Automapper
                 cfg.CreateMap<Reports, ReportsDTO>();
                 cfg.CreateMap<User, UserDTO>();
                 cfg.CreateMap<Companys, CompanyDTO>();
+                //cfg.CreateMap<UserType, UserType>();
+                //cfg.CreateMap<Country, Country>();
 
                 // Agrega más configuraciones de mapeo si es necesario
             });
