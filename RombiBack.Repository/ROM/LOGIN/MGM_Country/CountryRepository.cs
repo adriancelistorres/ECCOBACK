@@ -35,7 +35,7 @@ namespace RombiBack.Repository.ROM.LOGIN.MGM_Country
 
             try
             {
-                using (SqlConnection sql = new SqlConnection(_dbConnection.GetConnectionAPP_BI()))
+                using (SqlConnection sql = new SqlConnection(_dbConnection.GetConnectionROMBI()))
                 {
                     await sql.OpenAsync();
 
