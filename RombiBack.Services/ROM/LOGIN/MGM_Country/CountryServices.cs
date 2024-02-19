@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Caching.Distributed;
 using RombiBack.Entities.ROM.ENTEL_RETAIL.Models.Producto.Mappers;
 using RombiBack.Entities.ROM.LOGIN.Country;
 using RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_Products;
@@ -15,12 +16,18 @@ namespace RombiBack.Services.ROM.LOGIN.MGM_Country
     {
         private readonly ICountryRepository _countryRepository;
 
+        private const string CountriesKey = "Countries";
+        private readonly IDistributedCache _distributedCache;
+
+
         private readonly IMapper _mapper;
 
-        public CountryServices(ICountryRepository countryRepository, IMapper mapper)
+        public CountryServices(ICountryRepository countryRepository, IMapper mapper, IDistributedCache distributedCache)
         {
             _countryRepository = countryRepository;
             _mapper = mapper;
+            _distributedCache = distributedCache;
+
         }
         public Task<Country> Add(Country entity)
         {
@@ -34,6 +41,7 @@ namespace RombiBack.Services.ROM.LOGIN.MGM_Country
 
         public async Task<List<Country>> GetAll()
         {
+
             return await _countryRepository.GetAll();
         }
 

@@ -18,7 +18,7 @@ using RombiBack.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,6 +62,14 @@ builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(typeof(Program));
 
 
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.InstanceName = "MyCacheInstance"; // Nombre de la instancia
+    options.Configuration = "localhost:6379,password=adrianc"; // Configuración de conexión
+});
+
+
+builder.Services.AddHttpClient();
 
 //builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 //builder.Services.AddScoped<IProductoServices, ProductoServices>();
