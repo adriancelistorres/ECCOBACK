@@ -42,30 +42,7 @@ namespace RombiBack.Controllers.ROM.ENTEL_RETAIL.MGM_Products
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> AgregarProducto([FromBody] Producto product)
-        {
-            try
-            {
-                // Aquí puedes utilizar AutoMapper para mapear tu DTO a la entidad del modelo de dominio
-                // Supongo que tu DTO se llama ProductoDTO y es diferente de tu entidad Producto
-                //Producto producto = _mapper.Map<Producto>(productoDTO);
-
-                // Llamada al servicio para agregar el producto
-                Producto productoAgregado = await _productoService.Add(product);
-
-                // Puedes devolver el producto agregado si es necesario
-                // También puedes devolver un código 201 Created con la ubicación del nuevo recurso, por ejemplo:
-                // return CreatedAtAction(nameof(AgregarProducto), new { id = productoAgregado.intModeloEquipoID }, productoAgregado);
-
-                return Ok(productoAgregado); // Devuelve el producto agregado como OK (200 OK)
-            }
-            catch (Exception ex)
-            {
-                // Manejo de errores
-                return StatusCode(500, "Error interno del servidor: " + ex.Message);
-            }
-        }
+       
 
     }
 }

@@ -9,7 +9,9 @@ using System.Threading.Tasks;
 
 namespace RombiBack.Services.ROM.LOGIN.MGM_Country
 {
-    public interface ICountryServices : IServices<Country>
+    public interface ICountryServices/* : IServices<Country>*/
     {
+        Task<List<Country>> GetAll();
+
     }
 }

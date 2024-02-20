@@ -29,30 +29,13 @@ namespace RombiBack.Services.ROM.LOGIN.MGM_Country
             _distributedCache = distributedCache;
 
         }
-        public Task<Country> Add(Country entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Country> Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
+      
         public async Task<List<Country>> GetAll()
         {
 
             return await _countryRepository.GetAll();
         }
 
-        public Task<bool> Remove(Country entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Country> Update(Country entity)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

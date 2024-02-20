@@ -22,29 +22,11 @@ namespace RombiBack.Services.ROM.LOGIN.MGM_UserType
 
         }
 
-        public Task<UserType> Add(UserType entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<UserType> Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<List<UserType>> GetAll()
         {
             return await _usertypeRepository.GetAll();
         }
 
-        public Task<bool> Remove(UserType entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<UserType> Update(UserType entity)
-        {
-            throw new NotImplementedException();
-        }
+      
     }
 }

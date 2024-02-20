@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace RombiBack.Repository.ROM.LOGIN.MGM_Country
 {
-    public interface ICountryRepository : IRepository<Country>
+    public interface ICountryRepository /*: IRepository<Country>*/
     {
+        Task<List<Country>> GetAll();
     }
 }

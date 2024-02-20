@@ -18,15 +18,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_Reports
         {
             _dbConnection = dbConnection;
         }
-        public Task<Reports> Add(Reports entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Reports> Get(int id)
-        {
-            throw new NotImplementedException();
-        }
+    
 
         public async Task<List<Reports>> GetAll()
         {
@@ -64,14 +56,6 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_Reports
 
 
 
-        public Task<bool> Remove(Reports entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Reports> Update(Reports entity)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

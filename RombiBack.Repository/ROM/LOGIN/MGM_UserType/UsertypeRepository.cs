@@ -19,15 +19,7 @@ namespace RombiBack.Repository.ROM.LOGIN.MGM_UserType
         {
             _dbConnection = dbConnection;
         }
-        public Task<UserType> Add(UserType entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<UserType> Get(int id)
-        {
-            throw new NotImplementedException();
-        }
+ 
 
         public async Task<List<UserType>> GetAll()
         {
@@ -78,14 +70,6 @@ namespace RombiBack.Repository.ROM.LOGIN.MGM_UserType
         {
             Console.WriteLine(message);
         }
-        public Task<bool> Remove(UserType entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<UserType> Update(UserType entity)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

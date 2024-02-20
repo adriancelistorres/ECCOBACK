@@ -19,6 +19,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
+using RombiBack.Security.Auth.Repsitory;
+using RombiBack.Security.Auth.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,8 +73,8 @@ builder.Services.AddStackExchangeRedisCache(options =>
 
 builder.Services.AddHttpClient();
 
-//builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
-//builder.Services.AddScoped<IProductoServices, ProductoServices>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IAuthServices, AuthServices>();
 
 //builder.Services.AddScoped<IReportsRepository, ReportsRepository>();
 //builder.Services.AddScoped<IReportsServices, ReportsServices>();

@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_Reports
 {
-    public interface IReportsRepository : IRepository<Reports>
+    public interface IReportsRepository /*: IRepository<Reports>*/
     {
-    
+        Task<List<Reports>> GetAll();
     }
 }

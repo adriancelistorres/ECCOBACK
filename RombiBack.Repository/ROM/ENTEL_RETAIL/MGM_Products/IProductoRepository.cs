@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_Products
 {
-    public interface IProductoRepository : IRepository<Producto>
+    public interface IProductoRepository /*: IRepository<Producto>*/
     {
         Task<List<Producto>> ObtenerTodo();
 

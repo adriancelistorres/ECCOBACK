@@ -53,20 +53,11 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_Products
             }
         }
 
-        public Task<Producto> Get(int id)
-        {
-            throw new NotImplementedException();
-        }
+      
 
-        public Task<List<Producto>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
+     
 
-        //public Task<List<Producto>> ObtenerTodo()
-        //{
-        //    throw new NotImplementedException();
-        //}
+       
 
 
 
@@ -102,14 +93,6 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_Products
             }
         }
 
-        public Task<bool> Remove(Producto entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Producto> Update(Producto entity)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

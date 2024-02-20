@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace RombiBack.Repository.ROM.LOGIN.MGM_UserType
 {
-    public interface IUsertypeRepository:IRepository<UserType>
+    public interface IUsertypeRepository/*:IRepository<UserType>*/
     {
+        Task<List<UserType>> GetAll();
     }
 }

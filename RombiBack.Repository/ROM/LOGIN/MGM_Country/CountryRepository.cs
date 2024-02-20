@@ -19,15 +19,7 @@ namespace RombiBack.Repository.ROM.LOGIN.MGM_Country
         {
             _dbConnection = dbConnection;
         }
-        public Task<Country> Add(Country entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Country> Get(int id)
-        {
-            throw new NotImplementedException();
-        }
+      
 
         public async Task<List<Country>> GetAll()
         {
@@ -35,7 +27,7 @@ namespace RombiBack.Repository.ROM.LOGIN.MGM_Country
 
             try
             {
-                using (SqlConnection sql = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                using (SqlConnection sql = new SqlConnection(_dbConnection.GetConnectionAPP_BI()))
                 {
                     await sql.OpenAsync();
 
@@ -71,14 +63,6 @@ namespace RombiBack.Repository.ROM.LOGIN.MGM_Country
 
 
 
-        public Task<bool> Remove(Country entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Country> Update(Country entity)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

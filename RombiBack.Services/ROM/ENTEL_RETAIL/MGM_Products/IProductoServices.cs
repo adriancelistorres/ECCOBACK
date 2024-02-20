@@ -9,9 +9,11 @@ using System.Threading.Tasks;
 
 namespace RombiBack.Services.ROM.ENTEL_RETAIL.MGM_Products
 {
-    public interface IProductoServices : IServices<Producto>
+    public interface IProductoServices /*: IServices<Producto>*/
     {
         Task<List<ProductoDTO>> ObtenerTodo();
+
+
 
     }
 }

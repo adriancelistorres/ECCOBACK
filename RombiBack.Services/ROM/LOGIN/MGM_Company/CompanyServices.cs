@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
 using RombiBack.Entities.ROM.LOGIN.Company;
 using RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_Products;
 using RombiBack.Repository.ROM.LOGIN.Company;
@@ -16,44 +17,57 @@ namespace RombiBack.Services.ROM.LOGIN.Company
     {
         private readonly ICompanyRepository _companyRepository;
         private readonly IDistributedCache _cache;
+        private readonly ILogger<CompanyServices> _logger;
 
         private IMapper _mapper;
 
-        public CompanyServices(IDistributedCache cache, ICompanyRepository companytRepository, IMapper mapper)
+        public CompanyServices(ILogger<CompanyServices> logger, IDistributedCache cache, ICompanyRepository companytRepository, IMapper mapper)
         {
+            _logger = logger;
+
             _cache = cache;
             _companyRepository = companytRepository;
             _mapper = mapper;
         }
+        //public async Task<List<CompanyDTO>> GetCompany()
+        //{
+        //    var companiesFromDatabase = await _companyRepository.GetCompany();
+        //    return _mapper.Map<List<CompanyDTO>>(companiesFromDatabase);
+        //}
+
+
+
         public async Task<List<CompanyDTO>> GetCompany()
         {
-            // Verificar si los datos están en caché
-            var cachedCompanies = await _cache.GetStringAsync("AllCompanies");
-
-            if (cachedCompanies != null)
+            try
             {
-                // Los datos están en caché, los deserializamos y los devolvemos
-                var companiesDTO = JsonSerializer.Deserialize<List<CompanyDTO>>(cachedCompanies);
-                return companiesDTO;
+                var cachedCompanies = await _cache.GetStringAsync("AllCompanies");
+                if (cachedCompanies != null)
+                {
+                    var companiesDTO = JsonSerializer.Deserialize<List<CompanyDTO>>(cachedCompanies);
+                    return companiesDTO;
+                }
+                else
+                {
+                    var companiesFromDatabase = await _companyRepository.GetCompany();
+                    var companiesDTO = _mapper.Map<List<CompanyDTO>>(companiesFromDatabase);
+                    var serializedCompanies = JsonSerializer.Serialize(companiesDTO);
+                    await _cache.SetStringAsync("AllCompanies", serializedCompanies);
+
+                    return companiesDTO;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                // Los datos no están en caché, los obtenemos de la base de datos
+                // Manejar cualquier excepción
+                _logger.LogError(ex, "Error al obtener datos de la empresa. Se recurrirá a la base de datos.");
+
+                // En caso de error, recuperar los datos directamente de la base de datos
                 var companiesFromDatabase = await _companyRepository.GetCompany();
-
-                // Mapeamos los datos al DTO
-                var companiesDTO = _mapper.Map<List<CompanyDTO>>(companiesFromDatabase);
-
-                // Serializamos los datos antes de guardarlos en caché
-                var serializedCompanies = JsonSerializer.Serialize(companiesDTO);
-
-                // Guardamos los datos en caché
-                await _cache.SetStringAsync("AllCompanies", serializedCompanies);
-
-                // Devolvemos los datos obtenidos
-                return companiesDTO;
+                return _mapper.Map<List<CompanyDTO>>(companiesFromDatabase);
             }
         }
+
 
     }
 }

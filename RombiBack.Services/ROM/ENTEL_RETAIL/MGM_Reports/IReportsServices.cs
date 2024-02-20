@@ -10,7 +10,9 @@ using System.Threading.Tasks;
 
 namespace RombiBack.Services.ROM.ENTEL_RETAIL.MGM_Reports
 {
-    public interface IReportsServices : IServices<ReportsDTO>
+    public interface IReportsServices /*: IServices<ReportsDTO>*/
     {
+        Task<List<ReportsDTO>> GetAll();
+
     }
 }

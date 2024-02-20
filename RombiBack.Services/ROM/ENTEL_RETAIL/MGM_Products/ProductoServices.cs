@@ -20,28 +20,7 @@ namespace RombiBack.Services.ROM.ENTEL_RETAIL.MGM_Products
             _mapper = mapper;
         }
 
-        public Task<Producto> Add(Producto entity)
-        {
-            return _productRepository.Add(entity);
-
-        }
-
-        public Task<Producto> Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Producto>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> Remove(Producto entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Producto> Update(Producto entity)
+        public Task<ProductoDTO> Add()
         {
             throw new NotImplementedException();
         }
