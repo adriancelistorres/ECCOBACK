@@ -22,5 +22,12 @@ namespace RombiBack.Controllers.AuthLogin
             var login = await _authServices.ValidateUser(request);
             return Ok(login);
         }
+
+        [HttpPost("LoginMain")]
+        public async Task<IActionResult> LoginMain(UserDTORequest request)
+        {
+            var login = await _authServices.RombiLoginMain(request);
+            return Ok(login);
+        }
     }
 }

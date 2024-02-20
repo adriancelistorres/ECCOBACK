@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace RombiBack.Security.Model.UserAuth
 {
-    public class UserDTORequest
+    public class UserDTOResponse
     {
-        public string codpais { get; set; }
-        public string user { get; set; }
-        public string password { get; set; }
+         public string Resultado { get; set; }
+        public int Accede { get; set; }
     }
 }

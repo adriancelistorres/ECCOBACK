@@ -28,10 +28,18 @@ namespace RombiBack.Security.Auth.Services
             _mapper = mapper;
         }
 
+        public async Task<UserDTOResponse> RombiLoginMain(UserDTORequest request)
+        {
+            var validateUser = await _authRepository.RombiLoginMain(request);
+            return validateUser;
+        }
+
         public async Task<UserAuth> ValidateUser(UserDTORequest request)
         {
             var validateUser= await _authRepository.ValidateUser(request);
             return validateUser;
         }
+
+       
     }
 }

@@ -23,6 +23,55 @@ namespace RombiBack.Security.Auth.Repsitory
             _dbConnection = dbConnection;
         }
 
+        public async Task<UserDTOResponse> RombiLoginMain(UserDTORequest request)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionAPP_BI()))
+                {
+                    await connection.OpenAsync();
+
+                    using (SqlCommand command = new SqlCommand("USP_RombiLoginMain", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add("@codpais", SqlDbType.Char, 4).Value = request.codpais; // Ajustar el tamaño del parámetro
+                        command.Parameters.Add("@user", SqlDbType.VarChar, 50).Value = request.user;
+                        command.Parameters.Add("@password", SqlDbType.VarChar, 50).Value = request.password;
+
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (await reader.ReadAsync())
+                            {
+                                // Acceso concedido
+                                UserDTOResponse userAuth = new UserDTOResponse
+                                {
+                                    Resultado = reader["Resultado"].ToString(),
+                                    Accede = Convert.ToInt32(reader["Accede"])
+                                };
+                                return userAuth;
+                            }
+                            else
+                            {
+                                // Acceso denegado
+                                return new UserDTOResponse
+                                {
+                                    Resultado = reader["Resultado"].ToString(),
+                                    Accede = Convert.ToInt32(reader["Accede"])
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                Console.WriteLine("Error en ValidateUser: " + ex.Message);
+                throw; // Lanzar excepción para que la capa superior maneje el error
+            }
+        }
+
+
         //public async Task<UserAuth> ValidateUser(UserDTORequest request)
         //{
         //    using SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionAPP_BI());
@@ -117,9 +166,9 @@ namespace RombiBack.Security.Auth.Repsitory
                     using (SqlCommand command = new SqlCommand("USP_ValidateUserRombi", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.Add("@CodPais", SqlDbType.VarChar, 50).Value = request.CodPais;
-                        command.Parameters.Add("@Usuario", SqlDbType.VarChar, 50).Value = request.Usuario;
-                        command.Parameters.Add("@Clave", SqlDbType.VarChar, 50).Value = request.Clave;
+                        command.Parameters.Add("@CodPais", SqlDbType.VarChar, 50).Value = request.codpais;
+                        command.Parameters.Add("@Usuario", SqlDbType.VarChar, 50).Value = request.user;
+                        command.Parameters.Add("@Clave", SqlDbType.VarChar, 50).Value = request.password;
 
                         using (SqlDataReader reader = await command.ExecuteReaderAsync())
                         {
