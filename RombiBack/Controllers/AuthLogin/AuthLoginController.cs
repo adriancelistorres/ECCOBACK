@@ -55,7 +55,15 @@ namespace RombiBack.Controllers.AuthLogin
             }
             else
             {
-                return Unauthorized();
+                string token = "";
+
+                return Ok(new
+                {
+                    login.Resultado,
+                    login.Accede,
+                    message = "NO QUIERES QUE ENTRE JOSSELIN",
+                    token
+                });
             }
             //return Ok(login);
         }
