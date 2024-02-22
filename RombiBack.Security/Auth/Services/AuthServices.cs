@@ -3,6 +3,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using RombiBack.Security.Auth.Repsitory;
 using RombiBack.Security.Model.UserAuth;
+using RombiBack.Security.Model.UserAuth.Modules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,19 +40,24 @@ namespace RombiBack.Security.Auth.Services
             var validateUser = await _authRepository.ValidateUser(request);
             return validateUser;
         }
-        public async Task<BusinessAccountResponse> GetBusinessUser(UserDTORequest request)
+        public async Task<List<BusinessAccountResponse>> GetBusinessUser(UserDTORequest request)
         {
             var getBusinessUser = await _authRepository.GetBusinessUser(request);
             return getBusinessUser;
         }
-        public async Task<BusinessAccountResponse> GetBusinessAccountUser(UserDTORequest request)
+        public async Task<List<BusinessAccountResponse>> GetBusinessAccountUser(UserDTORequest request)
         {
             var getBusinessAccountUser = await _authRepository.GetBusinessAccountUser(request);
             return getBusinessAccountUser;
         }
 
-      
 
-       
+        public async Task<List<ModuloDTOResponse>> GetPermissions(UserDTORequest request)
+        {
+            var getPermissions = await _authRepository.GetPermissions(request);
+            return getPermissions;
+        }
+
+
     }
 }

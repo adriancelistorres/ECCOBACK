@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RombiBack.Security.Model.UserAuth.Modules;
 
 namespace RombiBack.Security.Auth.Repsitory
 {
@@ -13,10 +14,8 @@ namespace RombiBack.Security.Auth.Repsitory
     {
         Task<UserAuth> ValidateUser(UserDTORequest request);
         Task<UserDTOResponse> RombiLoginMain(UserDTORequest request);
-        Task<BusinessAccountResponse> GetBusinessUser(UserDTORequest request);
-        Task<BusinessAccountResponse> GetBusinessAccountUser(UserDTORequest request);
-
-
-
+        Task<List<BusinessAccountResponse>> GetBusinessUser(UserDTORequest request);
+        Task<List<BusinessAccountResponse>> GetBusinessAccountUser(UserDTORequest request);
+        Task<List<ModuloDTOResponse>> GetPermissions(UserDTORequest request);
     }
 }

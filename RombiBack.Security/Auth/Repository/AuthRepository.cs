@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using WebApiRestNetCore.DTO.DtoIncentivo;
 using RombiBack.Security.Model.UserAuth;
 using Microsoft.AspNetCore.Http.HttpResults;
+using System.Reflection;
+using RombiBack.Security.Model.UserAuth.Modules;
 
 namespace RombiBack.Security.Auth.Repsitory
 {
@@ -71,7 +73,7 @@ namespace RombiBack.Security.Auth.Repsitory
                 throw; // Lanzar excepción para que la capa superior maneje el error
             }
         }
-        public async Task<BusinessAccountResponse> GetBusinessUser(UserDTORequest request)
+        public async Task<List<BusinessAccountResponse>> GetBusinessUser(UserDTORequest request)
         {
             try
             {
@@ -83,34 +85,30 @@ namespace RombiBack.Security.Auth.Repsitory
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.Add("@EMPRESAID", SqlDbType.Char, 4).Value = request.codempresa;
-                        command.Parameters.Add("@USUARIO", SqlDbType.Char, 50).Value = request.user; // Ajustado al tamaño necesario, puedes cambiar 50 por el tamaño adecuado
-
-                        // Agrega otros parámetros según sea necesario
+                        command.Parameters.Add("@USUARIO", SqlDbType.Char, 50).Value = request.user;
 
                         using (SqlDataReader reader = await command.ExecuteReaderAsync())
                         {
                             if (reader.HasRows)
                             {
-                                // Supongamos que UserDTOResponse tiene propiedades idpais, idnegocio, idcuenta, desc_cuenta
-                                // Debes ajustar este mapeo de acuerdo a tu modelo de datos
-                                BusinessAccountResponse response = new BusinessAccountResponse();
+                                List<BusinessAccountResponse> response = new List<BusinessAccountResponse>();
 
                                 while (await reader.ReadAsync())
                                 {
-                                    response.idpais = reader.GetString(reader.GetOrdinal("idpais"));
-                                    response.idnegocio = reader.GetString(reader.GetOrdinal("idnegocio"));
-                                    response.desc_negocio = reader.GetString(reader.GetOrdinal("desc_negocio"));
+                                    BusinessAccountResponse businessAccount = new BusinessAccountResponse();
+                                    businessAccount.idpais = reader.GetString(reader.GetOrdinal("idpais"));
+                                    businessAccount.idnegocio = reader.GetString(reader.GetOrdinal("idnegocio"));
+                                    businessAccount.desc_negocio = reader.GetString(reader.GetOrdinal("desc_negocio"));
 
-                                    // Puedes manejar múltiples filas si es necesario
-                                    // Por ejemplo, almacenar cada resultado en una lista
+                                    response.Add(businessAccount);
                                 }
 
                                 return response;
                             }
                             else
                             {
-                                // No se encontraron resultados, podrías manejarlo en consecuencia
-                                return null;
+                                // No se encontraron resultados
+                                return new List<BusinessAccountResponse>(); // Devuelve una lista vacía en lugar de null
                             }
                         }
                     }
@@ -118,14 +116,13 @@ namespace RombiBack.Security.Auth.Repsitory
             }
             catch (Exception ex)
             {
-                // Manejo de errores
-                // Por ejemplo, podrías registrar el error y devolver un mensaje de error adecuado
+                // Manejar la excepción
                 Console.WriteLine("Error: " + ex.Message);
                 throw; // O devuelve algún tipo de indicación de error adecuada
             }
         }
 
-        public async Task<BusinessAccountResponse> GetBusinessAccountUser(UserDTORequest request)
+        public async Task<List<BusinessAccountResponse>> GetBusinessAccountUser(UserDTORequest request)
         {
             try
             {
@@ -137,37 +134,33 @@ namespace RombiBack.Security.Auth.Repsitory
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.Add("@EMPRESAID", SqlDbType.Char, 4).Value = request.codempresa;
-                        command.Parameters.Add("@COD_NEGOCIO", SqlDbType.Char, 50).Value = request.codnegocio; // Ajustado al tamaño necesario, puedes cambiar 50 por el tamaño adecuado
-                        command.Parameters.Add("@USUARIO", SqlDbType.Char, 50).Value = request.user; // Ajustado al tamaño necesario, puedes cambiar 50 por el tamaño adecuado
-
-                        // Agrega otros parámetros según sea necesario
+                        command.Parameters.Add("@COD_NEGOCIO", SqlDbType.Char, 50).Value = request.codnegocio;
+                        command.Parameters.Add("@USUARIO", SqlDbType.Char, 50).Value = request.user;
 
                         using (SqlDataReader reader = await command.ExecuteReaderAsync())
                         {
                             if (reader.HasRows)
                             {
-                                // Supongamos que UserDTOResponse tiene propiedades idpais, idnegocio, idcuenta, desc_cuenta
-                                // Debes ajustar este mapeo de acuerdo a tu modelo de datos
-                                BusinessAccountResponse response = new BusinessAccountResponse();
+                                List<BusinessAccountResponse> response = new List<BusinessAccountResponse>();
 
                                 while (await reader.ReadAsync())
                                 {
-                                    response.idpais = reader.GetString(reader.GetOrdinal("idpais"));
-                                    response.idnegocio = reader.GetString(reader.GetOrdinal("idnegocio"));
-                                    response.desc_negocio = reader.GetString(reader.GetOrdinal("desc_negocio"));
-                                    response.idcuenta = reader.GetString(reader.GetOrdinal("idcuenta"));
-                                    response.desc_cuenta = reader.GetString(reader.GetOrdinal("desc_cuenta"));
+                                    BusinessAccountResponse businessAccount = new BusinessAccountResponse();
+                                    businessAccount.idpais = reader.GetString(reader.GetOrdinal("idpais"));
+                                    businessAccount.idnegocio = reader.GetString(reader.GetOrdinal("idnegocio"));
+                                    businessAccount.desc_negocio = reader.GetString(reader.GetOrdinal("desc_negocio"));
+                                    businessAccount.idcuenta = reader.GetString(reader.GetOrdinal("idcuenta"));
+                                    businessAccount.desc_cuenta = reader.GetString(reader.GetOrdinal("desc_cuenta"));
 
-                                    // Puedes manejar múltiples filas si es necesario
-                                    // Por ejemplo, almacenar cada resultado en una lista
+                                    response.Add(businessAccount);
                                 }
 
                                 return response;
                             }
                             else
                             {
-                                // No se encontraron resultados, podrías manejarlo en consecuencia
-                                return null;
+                                // No se encontraron resultados
+                                return new List<BusinessAccountResponse>(); // Devuelve una lista vacía en lugar de null
                             }
                         }
                     }
@@ -182,7 +175,176 @@ namespace RombiBack.Security.Auth.Repsitory
             }
         }
 
-       
+        public async Task<List<ModuloDTOResponse>> GetPermissions(UserDTORequest request)
+        {
+            List<ModuloDTOResponse> permissions = new List<ModuloDTOResponse>();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+
+                    using (SqlCommand command = new SqlCommand("USP_GETPERMITSUSER", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add("@IDPAIS", SqlDbType.VarChar, 50).Value = request.codpais;
+                        command.Parameters.Add("@IDEMPRESA", SqlDbType.VarChar, 50).Value = request.codempresa;
+                        command.Parameters.Add("@IDNEGOCIO", SqlDbType.VarChar, 50).Value = request.codnegocio;
+                        command.Parameters.Add("@IDCUENTA", SqlDbType.VarChar, 50).Value = request.codcuenta;
+                        command.Parameters.Add("@USUARIO", SqlDbType.VarChar, 50).Value = request.user;
+
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            Dictionary<int, ModuloDTOResponse> moduloDictionary = new Dictionary<int, ModuloDTOResponse>();
+
+                            while (await reader.ReadAsync())
+                            {
+                                int idmodulo = reader.IsDBNull(reader.GetOrdinal("idmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("idmodulo"));
+
+                                if (!moduloDictionary.ContainsKey(idmodulo))
+                                {
+                                    ModuloDTOResponse module = new ModuloDTOResponse
+                                    {
+                                        idmodulo = idmodulo,
+                                        nombremodulo = reader.IsDBNull(reader.GetOrdinal("nombremodulo")) ? null : reader.GetString(reader.GetOrdinal("nombremodulo")),
+                                        iconomodulo = reader.IsDBNull(reader.GetOrdinal("iconomodulo")) ? null : reader.GetString(reader.GetOrdinal("iconomodulo")),
+                                        rutamodulo = reader.IsDBNull(reader.GetOrdinal("rutamodulo")) ? null : reader.GetString(reader.GetOrdinal("rutamodulo")),
+                                        nivelmodulo = reader.IsDBNull(reader.GetOrdinal("nivelmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("nivelmodulo")),
+                                        ordenmodulo = reader.IsDBNull(reader.GetOrdinal("ordenmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("ordenmodulo")),
+                                        estadomodulo = reader.IsDBNull(reader.GetOrdinal("estadomodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("estadomodulo")),
+                                        submodules = new List<SubModuloDTOResponse>()
+                                    };
+
+                                    moduloDictionary.Add(idmodulo, module);
+                                }
+
+                                SubModuloDTOResponse submodule = new SubModuloDTOResponse
+                                {
+                                    idsubmodulo = reader.IsDBNull(reader.GetOrdinal("idsubmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("idsubmodulo")),
+                                    nombresubmodulo = reader.IsDBNull(reader.GetOrdinal("nombresubmodulo")) ? null : reader.GetString(reader.GetOrdinal("nombresubmodulo")),
+                                    iconosubmodulo = reader.IsDBNull(reader.GetOrdinal("iconosubmodulo")) ? null : reader.GetString(reader.GetOrdinal("iconosubmodulo")),
+                                    rutasubmodulo = reader.IsDBNull(reader.GetOrdinal("rutasubmodulo")) ? null : reader.GetString(reader.GetOrdinal("rutasubmodulo")),
+                                    nivelsubmodulo = reader.IsDBNull(reader.GetOrdinal("nivelsubmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("nivelsubmodulo")),
+                                    ordensubmodulo = reader.IsDBNull(reader.GetOrdinal("ordensubmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("ordensubmodulo")),
+                                    estadosubmodulo = reader.IsDBNull(reader.GetOrdinal("estadosubmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("estadosubmodulo")),
+                                    items = new List<ItemModuloDTOResponse>()
+                                };
+
+                                ItemModuloDTOResponse item = new ItemModuloDTOResponse
+                                {
+                                    iditemmodulo = reader.IsDBNull(reader.GetOrdinal("iditemmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("iditemmodulo")),
+                                    nombreitemmodulo = reader.IsDBNull(reader.GetOrdinal("nombreitemmodulo")) ? null : reader.GetString(reader.GetOrdinal("nombreitemmodulo")),
+                                    iconoitemmodulo = reader.IsDBNull(reader.GetOrdinal("iconoitemmodulo")) ? null : reader.GetString(reader.GetOrdinal("iconoitemmodulo")),
+                                    rutaitemmodulo = reader.IsDBNull(reader.GetOrdinal("rutaitemmodulo")) ? null : reader.GetString(reader.GetOrdinal("rutaitemmodulo")),
+                                    nivelitemmodulo = reader.IsDBNull(reader.GetOrdinal("nivelitemmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("nivelitemmodulo")),
+                                    ordenitemmodulo = reader.IsDBNull(reader.GetOrdinal("ordenitemmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("ordenitemmodulo")),
+                                    estadoitemmodulo = reader.IsDBNull(reader.GetOrdinal("estadoitemmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("estadoitemmodulo"))
+                                };
+
+                                moduloDictionary[idmodulo].submodules.Add(submodule);
+                                submodule.items.Add(item);
+                            }
+
+                            permissions.AddRange(moduloDictionary.Values);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar la excepción
+                Console.WriteLine("Error: " + ex.Message);
+                throw; // O devuelve algún tipo de indicación de error adecuada
+            }
+
+            return permissions;
+        }
+
+
+        //public async Task<List<ModuloDTOResponse>> GetPermissions(UserDTORequest request)
+        //{
+        //    List<ModuloDTOResponse> permissions = new List<ModuloDTOResponse>();
+
+        //    try
+        //    {
+        //        using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+        //        {
+        //            await connection.OpenAsync();
+
+        //            using (SqlCommand command = new SqlCommand("USP_GETPERMITSUSER", connection))
+        //            {
+        //                command.CommandType = CommandType.StoredProcedure;
+        //                command.Parameters.Add("@IDPAIS", SqlDbType.VarChar, 50).Value = request.codpais;
+        //                command.Parameters.Add("@IDEMPRESA", SqlDbType.VarChar, 50).Value = request.codempresa;
+        //                command.Parameters.Add("@IDNEGOCIO", SqlDbType.VarChar, 50).Value = request.codnegocio;
+        //                command.Parameters.Add("@IDCUENTA", SqlDbType.VarChar, 50).Value = request.codcuenta;
+        //                command.Parameters.Add("@USUARIO", SqlDbType.VarChar, 50).Value = request.user;
+
+        //                using (SqlDataReader reader = await command.ExecuteReaderAsync())
+        //                {
+        //                    if (reader.HasRows)
+        //                    {
+        //                        while (await reader.ReadAsync())
+        //                        {
+
+        //                            ModuloDTOResponse module = new ModuloDTOResponse
+        //                            {
+        //                                idmodulo = reader.IsDBNull(reader.GetOrdinal("idmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("idmodulo")),
+        //                                nombremodulo = reader.IsDBNull(reader.GetOrdinal("nombremodulo")) ? null : reader.GetString(reader.GetOrdinal("nombremodulo")),
+        //                                iconomodulo = reader.IsDBNull(reader.GetOrdinal("iconomodulo")) ? null : reader.GetString(reader.GetOrdinal("iconomodulo")),
+        //                                rutamodulo = reader.IsDBNull(reader.GetOrdinal("rutamodulo")) ? null : reader.GetString(reader.GetOrdinal("rutamodulo")),
+        //                                nivelmodulo = reader.IsDBNull(reader.GetOrdinal("nivelmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("nivelmodulo")),
+        //                                ordenmodulo = reader.IsDBNull(reader.GetOrdinal("ordenmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("ordenmodulo")),
+        //                                estadomodulo = reader.IsDBNull(reader.GetOrdinal("estadomodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("estadomodulo")),
+        //                                submodules = new List<SubModuloDTOResponse>()
+        //                            };
+
+        //                            SubModuloDTOResponse submodule = new SubModuloDTOResponse
+        //                            {
+        //                                idsubmodulo = reader.IsDBNull(reader.GetOrdinal("idsubmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("idsubmodulo")),
+        //                                nombresubmodulo = reader.IsDBNull(reader.GetOrdinal("nombresubmodulo")) ? null : reader.GetString(reader.GetOrdinal("nombresubmodulo")),
+        //                                iconosubmodulo = reader.IsDBNull(reader.GetOrdinal("iconosubmodulo")) ? null : reader.GetString(reader.GetOrdinal("iconosubmodulo")),
+        //                                rutasubmodulo = reader.IsDBNull(reader.GetOrdinal("rutasubmodulo")) ? null : reader.GetString(reader.GetOrdinal("rutasubmodulo")),
+        //                                nivelsubmodulo = reader.IsDBNull(reader.GetOrdinal("nivelsubmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("nivelsubmodulo")),
+        //                                ordensubmodulo = reader.IsDBNull(reader.GetOrdinal("ordensubmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("ordensubmodulo")),
+        //                                estadosubmodulo = reader.IsDBNull(reader.GetOrdinal("estadosubmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("estadosubmodulo")),
+        //                                items = new List<ItemModuloDTOResponse>()
+        //                            };
+
+        //                            ItemModuloDTOResponse item = new ItemModuloDTOResponse
+        //                            {
+        //                                iditemmodulo = reader.IsDBNull(reader.GetOrdinal("iditemmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("iditemmodulo")),
+        //                                nombreitemmodulo = reader.IsDBNull(reader.GetOrdinal("nombreitemmodulo")) ? null : reader.GetString(reader.GetOrdinal("nombreitemmodulo")),
+        //                                iconoitemmodulo = reader.IsDBNull(reader.GetOrdinal("iconoitemmodulo")) ? null : reader.GetString(reader.GetOrdinal("iconoitemmodulo")),
+        //                                rutaitemmodulo = reader.IsDBNull(reader.GetOrdinal("rutaitemmodulo")) ? null : reader.GetString(reader.GetOrdinal("rutaitemmodulo")),
+        //                                nivelitemmodulo = reader.IsDBNull(reader.GetOrdinal("nivelitemmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("nivelitemmodulo")),
+        //                                ordenitemmodulo = reader.IsDBNull(reader.GetOrdinal("ordenitemmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("ordenitemmodulo")),
+        //                                estadoitemmodulo = reader.IsDBNull(reader.GetOrdinal("estadoitemmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("estadoitemmodulo"))
+        //                            };
+        //                            submodule.items.Add(item);
+        //                            module.submodules.Add(submodule);
+        //                            permissions.Add(module);
+        //                        }
+        //                    }
+        //                    else
+        //                    {
+        //                        Console.WriteLine("Error: ");
+
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Manejar la excepción
+        //        Console.WriteLine("Error: " + ex.Message);
+        //        throw; // O devuelve algún tipo de indicación de error adecuada
+        //    }
+
+        //    return permissions;
+        //}
 
 
         //public async Task<UserAuth> ValidateUser(UserDTORequest request)

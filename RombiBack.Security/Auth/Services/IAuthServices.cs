@@ -1,4 +1,5 @@
 ﻿using RombiBack.Security.Model.UserAuth;
+using RombiBack.Security.Model.UserAuth.Modules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,9 @@ namespace RombiBack.Security.Auth.Services
     {
         Task<UserAuth> ValidateUser(UserDTORequest request);
         Task<UserDTOResponse> RombiLoginMain(UserDTORequest request);
-        Task<BusinessAccountResponse> GetBusinessUser(UserDTORequest request);
-        Task<BusinessAccountResponse> GetBusinessAccountUser(UserDTORequest request);
+        Task<List<BusinessAccountResponse>> GetBusinessUser(UserDTORequest request);
+        Task<List<BusinessAccountResponse>> GetBusinessAccountUser(UserDTORequest request);
+        Task<List<ModuloDTOResponse>> GetPermissions(UserDTORequest request);
 
     }
 }

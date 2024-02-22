@@ -86,5 +86,15 @@ namespace RombiBack.Controllers.AuthLogin
             return Ok(getBusinessAccountUser);
         }
 
+
+        [HttpPost("GetPermissions")]
+        public async Task<IActionResult> GetPermissions([FromBody] UserDTORequest request)
+        {
+
+            var getPermissions = await _authServices.GetPermissions(request);
+
+            return Ok(getPermissions);
+        }
+
     }
 }
