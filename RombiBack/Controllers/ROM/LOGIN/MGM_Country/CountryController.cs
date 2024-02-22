@@ -18,7 +18,6 @@ namespace RombiBack.Controllers.ROM.LOGIN.MGM_Country
             _countryService = countryService;
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetCountries()
         {
