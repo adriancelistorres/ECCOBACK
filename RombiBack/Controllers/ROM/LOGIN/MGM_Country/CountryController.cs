@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RombiBack.Services.ROM.LOGIN.Company;
 using RombiBack.Services.ROM.LOGIN.MGM_Country;
@@ -16,6 +18,7 @@ namespace RombiBack.Controllers.ROM.LOGIN.MGM_Country
             _countryService = countryService;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetCountries()
         {

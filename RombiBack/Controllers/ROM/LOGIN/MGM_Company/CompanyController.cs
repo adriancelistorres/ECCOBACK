@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RombiBack.Services.ROM.ENTEL_RETAIL.MGM_Products;
 using RombiBack.Services.ROM.LOGIN.Company;
@@ -15,6 +16,7 @@ namespace RombiBack.Controllers.ROM.LOGIN.MGM_Company
             _companyService = companyService;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetCompanys()
         {

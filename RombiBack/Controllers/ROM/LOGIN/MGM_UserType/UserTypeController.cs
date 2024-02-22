@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RombiBack.Services.ROM.LOGIN.MGM_Country;
 using RombiBack.Services.ROM.LOGIN.MGM_UserType;
@@ -15,6 +16,7 @@ namespace RombiBack.Controllers.ROM.LOGIN.MGM_UserType
             _usertypeservices = usertypeservices;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetUserType()
         {
