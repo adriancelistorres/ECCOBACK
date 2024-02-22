@@ -84,6 +84,7 @@ namespace RombiBack.Security.Auth.Repsitory
                     using (SqlCommand command = new SqlCommand("USP_GETNEGOCIOUSER", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add("@PAISID", SqlDbType.Char, 4).Value = request.codpais;
                         command.Parameters.Add("@EMPRESAID", SqlDbType.Char, 4).Value = request.codempresa;
                         command.Parameters.Add("@USUARIO", SqlDbType.Char, 50).Value = request.user;
 
