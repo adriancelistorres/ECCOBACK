@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using RombiBack.Security.Auth.Services;
 using RombiBack.Security.Helpers;
+using RombiBack.Security.JWT;
 using RombiBack.Security.Model.UserAuth;
 using RombiBack.Services.ROM.LOGIN.Company;
 using System.IdentityModel.Tokens.Jwt;
@@ -18,21 +19,20 @@ namespace RombiBack.Controllers.AuthLogin
     {
         private readonly IAuthServices _authServices;
         public IConfiguration _configuration;
-        private readonly JwtHelper _jwtHelper;
-        public AuthLoginController(IConfiguration configuracion, IAuthServices authServices)
+        private readonly IGenerateToken _generateToken;
+        public AuthLoginController(IConfiguration configuracion, IAuthServices authServices, IGenerateToken generateToken)
         {
             _authServices = authServices;
             _configuration = configuracion;
-            _jwtHelper = new JwtHelper(configuracion);
-
+            _generateToken = generateToken;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Login(UserDTORequest request)
-        {
-            var login = await _authServices.ValidateUser(request);
-            return Ok(login);
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> Login(UserDTORequest request)
+        //{
+        //    var login = await _authServices.ValidateUser(request);
+        //    return Ok(login);
+        //}
 
         [HttpPost("LoginMain")]
         public async Task<IActionResult> LoginMain(UserDTORequest request)
@@ -42,7 +42,7 @@ namespace RombiBack.Controllers.AuthLogin
             if (login.Resultado == "ACCESO CONCEDIDO" && login.Accede == 1)
             {
 
-                string token = _jwtHelper.GenerateToken(request.user);
+                string token = _generateToken.GenerateToken(request.codempresa,request.codpais, request.user);
 
                 // Generar token
                 return Ok(new

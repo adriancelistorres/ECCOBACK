@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using RombiBack.Security.Model;
 using System;
@@ -11,7 +12,12 @@ using System.Threading.Tasks;
 
 namespace RombiBack.Security.JWT
 {
-    public class GenerateTokenMain
+    public interface IGenerateToken
+    {
+        string GenerateToken(string codempresa, string codpais, string user);
+    }
+
+    public class GenerateTokenMain : IGenerateToken
     {
         private readonly IConfiguration _configuration;
 
@@ -20,12 +26,14 @@ namespace RombiBack.Security.JWT
             _configuration = configuration;
         }
 
-        public string GenerateToken(string dni)
+        public string GenerateToken(string codempresa, string codpais, string user)
         {
             var jwt = _configuration.GetSection("JWT").Get<JwtModel>();
             var claims = new[]
             {
-                new Claim("dni", dni)
+                 new Claim("codempresa", codempresa),
+                new Claim("codpais", codpais),
+                new Claim("user", user)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key));
@@ -38,5 +46,7 @@ namespace RombiBack.Security.JWT
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+    
     }
 }

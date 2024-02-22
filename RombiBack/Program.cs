@@ -21,6 +21,7 @@ using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 using RombiBack.Security.Auth.Repsitory;
 using RombiBack.Security.Auth.Services;
+using RombiBack.Security.JWT;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -75,6 +76,8 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IAuthServices, AuthServices>();
+builder.Services.AddScoped<IGenerateToken, GenerateTokenMain>();
+
 
 //builder.Services.AddScoped<IReportsRepository, ReportsRepository>();
 //builder.Services.AddScoped<IReportsServices, ReportsServices>();

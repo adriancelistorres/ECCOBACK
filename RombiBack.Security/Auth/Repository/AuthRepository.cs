@@ -34,6 +34,7 @@ namespace RombiBack.Security.Auth.Repsitory
                     using (SqlCommand command = new SqlCommand("USP_RombiLoginMain", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add("@codempresa", SqlDbType.Char, 4).Value = request.codempresa; // Ajustar el tamaño del parámetro
                         command.Parameters.Add("@codpais", SqlDbType.Char, 4).Value = request.codpais; // Ajustar el tamaño del parámetro
                         command.Parameters.Add("@user", SqlDbType.VarChar, 50).Value = request.user;
                         command.Parameters.Add("@password", SqlDbType.VarChar, 50).Value = request.password;
