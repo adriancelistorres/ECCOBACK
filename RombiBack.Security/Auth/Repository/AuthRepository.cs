@@ -242,8 +242,17 @@ namespace RombiBack.Security.Auth.Repsitory
                                     estadoitemmodulo = reader.IsDBNull(reader.GetOrdinal("estadoitemmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("estadoitemmodulo"))
                                 };
 
-                                moduloDictionary[idmodulo].submodules.Add(submodule);
-                                submodule.items.Add(item);
+                                ModuloDTOResponse currentModule = moduloDictionary[idmodulo];
+                                var existingSubmodule = currentModule.submodules.FirstOrDefault(s => s.idsubmodulo == submodule.idsubmodulo);
+                                if (existingSubmodule != null)
+                                {
+                                    existingSubmodule.items.Add(item);
+                                }
+                                else
+                                {
+                                    currentModule.submodules.Add(submodule);
+                                    submodule.items.Add(item);
+                                }
                             }
 
                             permissions.AddRange(moduloDictionary.Values);
@@ -260,6 +269,7 @@ namespace RombiBack.Security.Auth.Repsitory
 
             return permissions;
         }
+
 
 
         //public async Task<List<ModuloDTOResponse>> GetPermissions(UserDTORequest request)
