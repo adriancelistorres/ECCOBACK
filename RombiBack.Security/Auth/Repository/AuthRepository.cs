@@ -27,11 +27,11 @@ namespace RombiBack.Security.Auth.Repsitory
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionAPP_BI()))
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
                 {
                     await connection.OpenAsync();
 
-                    using (SqlCommand command = new SqlCommand("USP_RombiLoginMain", connection))
+                    using (SqlCommand command = new SqlCommand("USP_ROMBILOGIN", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.Add("@codempresa", SqlDbType.Char, 4).Value = request.codempresa; // Ajustar el tamaño del parámetro
@@ -71,6 +71,118 @@ namespace RombiBack.Security.Auth.Repsitory
                 throw; // Lanzar excepción para que la capa superior maneje el error
             }
         }
+        public async Task<BusinessAccountResponse> GetBusinessUser(UserDTORequest request)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+
+                    using (SqlCommand command = new SqlCommand("USP_GETNEGOCIOUSER", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add("@EMPRESAID", SqlDbType.Char, 4).Value = request.codempresa;
+                        command.Parameters.Add("@USUARIO", SqlDbType.Char, 50).Value = request.user; // Ajustado al tamaño necesario, puedes cambiar 50 por el tamaño adecuado
+
+                        // Agrega otros parámetros según sea necesario
+
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (reader.HasRows)
+                            {
+                                // Supongamos que UserDTOResponse tiene propiedades idpais, idnegocio, idcuenta, desc_cuenta
+                                // Debes ajustar este mapeo de acuerdo a tu modelo de datos
+                                BusinessAccountResponse response = new BusinessAccountResponse();
+
+                                while (await reader.ReadAsync())
+                                {
+                                    response.idpais = reader.GetString(reader.GetOrdinal("idpais"));
+                                    response.idnegocio = reader.GetString(reader.GetOrdinal("idnegocio"));
+                                    response.desc_negocio = reader.GetString(reader.GetOrdinal("desc_negocio"));
+
+                                    // Puedes manejar múltiples filas si es necesario
+                                    // Por ejemplo, almacenar cada resultado en una lista
+                                }
+
+                                return response;
+                            }
+                            else
+                            {
+                                // No se encontraron resultados, podrías manejarlo en consecuencia
+                                return null;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                // Por ejemplo, podrías registrar el error y devolver un mensaje de error adecuado
+                Console.WriteLine("Error: " + ex.Message);
+                throw; // O devuelve algún tipo de indicación de error adecuada
+            }
+        }
+
+        public async Task<BusinessAccountResponse> GetBusinessAccountUser(UserDTORequest request)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+
+                    using (SqlCommand command = new SqlCommand("USP_GETCUENTAUSER", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add("@EMPRESAID", SqlDbType.Char, 4).Value = request.codempresa;
+                        command.Parameters.Add("@COD_NEGOCIO", SqlDbType.Char, 50).Value = request.codnegocio; // Ajustado al tamaño necesario, puedes cambiar 50 por el tamaño adecuado
+                        command.Parameters.Add("@USUARIO", SqlDbType.Char, 50).Value = request.user; // Ajustado al tamaño necesario, puedes cambiar 50 por el tamaño adecuado
+
+                        // Agrega otros parámetros según sea necesario
+
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (reader.HasRows)
+                            {
+                                // Supongamos que UserDTOResponse tiene propiedades idpais, idnegocio, idcuenta, desc_cuenta
+                                // Debes ajustar este mapeo de acuerdo a tu modelo de datos
+                                BusinessAccountResponse response = new BusinessAccountResponse();
+
+                                while (await reader.ReadAsync())
+                                {
+                                    response.idpais = reader.GetString(reader.GetOrdinal("idpais"));
+                                    response.idnegocio = reader.GetString(reader.GetOrdinal("idnegocio"));
+                                    response.desc_negocio = reader.GetString(reader.GetOrdinal("desc_negocio"));
+                                    response.idcuenta = reader.GetString(reader.GetOrdinal("idcuenta"));
+                                    response.desc_cuenta = reader.GetString(reader.GetOrdinal("desc_cuenta"));
+
+                                    // Puedes manejar múltiples filas si es necesario
+                                    // Por ejemplo, almacenar cada resultado en una lista
+                                }
+
+                                return response;
+                            }
+                            else
+                            {
+                                // No se encontraron resultados, podrías manejarlo en consecuencia
+                                return null;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                // Por ejemplo, podrías registrar el error y devolver un mensaje de error adecuado
+                Console.WriteLine("Error: " + ex.Message);
+                throw; // O devuelve algún tipo de indicación de error adecuada
+            }
+        }
+
+       
 
 
         //public async Task<UserAuth> ValidateUser(UserDTORequest request)

@@ -35,8 +35,9 @@ namespace RombiBack.Controllers.AuthLogin
         //}
 
         [HttpPost("LoginMain")]
-        public async Task<IActionResult> LoginMain(UserDTORequest request)
+        public async Task<IActionResult> LoginMain([FromBody] UserDTORequest request)
         {
+
             var login = await _authServices.RombiLoginMain(request);
 
             if (login.Resultado == "ACCESO CONCEDIDO" && login.Accede == 1)
@@ -56,18 +57,34 @@ namespace RombiBack.Controllers.AuthLogin
             else
             {
                 string token = "";
-
                 return Ok(new
                 {
                     login.Resultado,
                     login.Accede,
-                    message = "NO QUIERES QUE ENTRE JOSSELIN",
+                    message = "Usuario inválido",
                     token
                 });
             }
             //return Ok(login);
         }
 
-        
+        [HttpPost("GetBusinessUser")]
+        public async Task<IActionResult> GetBusinessUser([FromBody] UserDTORequest request)
+        {
+
+            var getBusinessUser = await _authServices.GetBusinessUser(request);
+
+            return Ok(getBusinessUser);
+        }
+
+        [HttpPost("GetBusinessAccountUser")]
+        public async Task<IActionResult> GetBusinessAccountUser([FromBody] UserDTORequest request)
+        {
+
+            var getBusinessAccountUser = await _authServices.GetBusinessAccountUser(request);
+
+            return Ok(getBusinessAccountUser);
+        }
+
     }
 }

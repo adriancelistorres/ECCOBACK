@@ -36,9 +36,21 @@ namespace RombiBack.Security.Auth.Services
 
         public async Task<UserAuth> ValidateUser(UserDTORequest request)
         {
-            var validateUser= await _authRepository.ValidateUser(request);
+            var validateUser = await _authRepository.ValidateUser(request);
             return validateUser;
         }
+        public async Task<BusinessAccountResponse> GetBusinessUser(UserDTORequest request)
+        {
+            var getBusinessUser = await _authRepository.GetBusinessUser(request);
+            return getBusinessUser;
+        }
+        public async Task<BusinessAccountResponse> GetBusinessAccountUser(UserDTORequest request)
+        {
+            var getBusinessAccountUser = await _authRepository.GetBusinessAccountUser(request);
+            return getBusinessAccountUser;
+        }
+
+      
 
        
     }

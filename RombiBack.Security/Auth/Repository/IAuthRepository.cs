@@ -13,7 +13,10 @@ namespace RombiBack.Security.Auth.Repsitory
     {
         Task<UserAuth> ValidateUser(UserDTORequest request);
         Task<UserDTOResponse> RombiLoginMain(UserDTORequest request);
-        
+        Task<BusinessAccountResponse> GetBusinessUser(UserDTORequest request);
+        Task<BusinessAccountResponse> GetBusinessAccountUser(UserDTORequest request);
+
+
 
     }
 }

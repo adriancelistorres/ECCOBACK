@@ -11,6 +11,8 @@ namespace RombiBack.Security.Auth.Services
     {
         Task<UserAuth> ValidateUser(UserDTORequest request);
         Task<UserDTOResponse> RombiLoginMain(UserDTORequest request);
+        Task<BusinessAccountResponse> GetBusinessUser(UserDTORequest request);
+        Task<BusinessAccountResponse> GetBusinessAccountUser(UserDTORequest request);
 
     }
 }
