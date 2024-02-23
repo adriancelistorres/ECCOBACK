@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -68,6 +69,7 @@ namespace RombiBack.Controllers.AuthLogin
             //return Ok(login);
         }
 
+        [Authorize]
         [HttpPost("GetBusinessUser")]
         public async Task<IActionResult> GetBusinessUser([FromBody] UserDTORequest request)
         {
@@ -77,6 +79,7 @@ namespace RombiBack.Controllers.AuthLogin
             return Ok(getBusinessUser);
         }
 
+        [Authorize]
         [HttpPost("GetBusinessAccountUser")]
         public async Task<IActionResult> GetBusinessAccountUser([FromBody] UserDTORequest request)
         {
@@ -86,7 +89,7 @@ namespace RombiBack.Controllers.AuthLogin
             return Ok(getBusinessAccountUser);
         }
 
-
+        [Authorize]
         [HttpPost("GetPermissions")]
         public async Task<IActionResult> GetPermissions([FromBody] UserDTORequest request)
         {
