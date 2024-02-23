@@ -186,7 +186,7 @@ namespace RombiBack.Security.Auth.Repsitory
                 {
                     await connection.OpenAsync();
 
-                    using (SqlCommand command = new SqlCommand("USP_GETPERMITSUSER", connection))
+                    using (SqlCommand command = new SqlCommand("USP_GETMENUPERMISSIONSUSER", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.Add("@IDPAIS", SqlDbType.VarChar, 50).Value = request.codpais;
