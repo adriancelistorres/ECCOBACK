@@ -40,7 +40,9 @@ namespace RombiBack.Security.JWT
             var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
                 claims: claims,
-                //expires: DateTime.Now.AddMinutes(20),
+                 issuer: jwt.Issuer,       // Especifica el emisor del token
+                audience: jwt.Audience,   // Especifica el destinatario del token
+                                  //expires: DateTime.Now.AddMinutes(20),
                 signingCredentials: signIn
             );
 
