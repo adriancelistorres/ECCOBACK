@@ -128,10 +128,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     {
         ValidateIssuer = false,
         ValidateAudience = false,
-        ValidateLifetime = true,
+        ValidateLifetime = false,
         ValidateIssuerSigningKey = true,
-        //ValidIssuer = builder.Configuration["JWT:Issuer"],
-        //ValidAudience = builder.Configuration["JWT:Audience"],
+        ValidIssuer = builder.Configuration["JWT:Issuer"],
+        ValidAudience = builder.Configuration["JWT:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
 
     };
