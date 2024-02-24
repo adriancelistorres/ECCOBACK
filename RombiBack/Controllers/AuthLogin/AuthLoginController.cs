@@ -28,12 +28,6 @@ namespace RombiBack.Controllers.AuthLogin
             _generateToken = generateToken;
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Login(UserDTORequest request)
-        //{
-        //    var login = await _authServices.ValidateUser(request);
-        //    return Ok(login);
-        //}
 
         [HttpPost("LoginMain")]
         public async Task<IActionResult> LoginMain([FromBody] UserDTORequest request)
@@ -68,6 +62,15 @@ namespace RombiBack.Controllers.AuthLogin
             }
             //return Ok(login);
         }
+
+        [Authorize]
+        [HttpPost("GetUserData")]
+        public async Task<IActionResult> GetUserData([FromBody] UserDTORequest request)
+        {
+            var getUserData = await _authServices.GetUserData(request);
+            return Ok(getUserData);
+        }
+
 
         [Authorize]
         [HttpPost("GetBusinessUser")]

@@ -73,6 +73,59 @@ namespace RombiBack.Security.Auth.Repsitory
                 throw; // Lanzar excepción para que la capa superior maneje el error
             }
         }
+
+        public async Task<UserDataDTOResponse> GetUserData(UserDTORequest request)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+
+                    using (SqlCommand command = new SqlCommand("USP_GETUSERDATA", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add("@usuario", SqlDbType.Char).Value = request.user; // Ajustar el tamaño del parámetro
+                      
+
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (await reader.ReadAsync())
+                            {
+                                // Acceso concedido
+                                UserDataDTOResponse userAuth = new UserDataDTOResponse
+                                {
+                                    usuario = reader["usuario"].ToString(),
+                                    nombres = reader["nombres"].ToString(),
+                                    apellidopaterno = reader["apellidopaterno"].ToString(),
+                                    apellidomaterno = reader["apellidomaterno"].ToString(),
+
+                                };
+                                return userAuth;
+                            }
+                            else
+                            {
+                                // Acceso denegado
+                                return new UserDataDTOResponse
+                                {
+                                    usuario = reader["usuario"].ToString(),
+                                    nombres = reader["nombres"].ToString(),
+                                    apellidopaterno = reader["apellidopaterno"].ToString(),
+                                    apellidomaterno = reader["apellidomaterno"].ToString(),
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                Console.WriteLine("Error en ValidateUser: " + ex.Message);
+                throw; // Lanzar excepción para que la capa superior maneje el error
+            }
+        }
+
         public async Task<List<BusinessAccountResponse>> GetBusinessUser(UserDTORequest request)
         {
             try
@@ -273,127 +326,7 @@ namespace RombiBack.Security.Auth.Repsitory
 
 
 
-        //public async Task<List<ModuloDTOResponse>> GetPermissions(UserDTORequest request)
-        //{
-        //    List<ModuloDTOResponse> permissions = new List<ModuloDTOResponse>();
 
-        //    try
-        //    {
-        //        using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
-        //        {
-        //            await connection.OpenAsync();
-
-        //            using (SqlCommand command = new SqlCommand("USP_GETPERMITSUSER", connection))
-        //            {
-        //                command.CommandType = CommandType.StoredProcedure;
-        //                command.Parameters.Add("@IDPAIS", SqlDbType.VarChar, 50).Value = request.codpais;
-        //                command.Parameters.Add("@IDEMPRESA", SqlDbType.VarChar, 50).Value = request.codempresa;
-        //                command.Parameters.Add("@IDNEGOCIO", SqlDbType.VarChar, 50).Value = request.codnegocio;
-        //                command.Parameters.Add("@IDCUENTA", SqlDbType.VarChar, 50).Value = request.codcuenta;
-        //                command.Parameters.Add("@USUARIO", SqlDbType.VarChar, 50).Value = request.user;
-
-        //                using (SqlDataReader reader = await command.ExecuteReaderAsync())
-        //                {
-        //                    if (reader.HasRows)
-        //                    {
-        //                        while (await reader.ReadAsync())
-        //                        {
-
-        //                            ModuloDTOResponse module = new ModuloDTOResponse
-        //                            {
-        //                                idmodulo = reader.IsDBNull(reader.GetOrdinal("idmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("idmodulo")),
-        //                                nombremodulo = reader.IsDBNull(reader.GetOrdinal("nombremodulo")) ? null : reader.GetString(reader.GetOrdinal("nombremodulo")),
-        //                                iconomodulo = reader.IsDBNull(reader.GetOrdinal("iconomodulo")) ? null : reader.GetString(reader.GetOrdinal("iconomodulo")),
-        //                                rutamodulo = reader.IsDBNull(reader.GetOrdinal("rutamodulo")) ? null : reader.GetString(reader.GetOrdinal("rutamodulo")),
-        //                                nivelmodulo = reader.IsDBNull(reader.GetOrdinal("nivelmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("nivelmodulo")),
-        //                                ordenmodulo = reader.IsDBNull(reader.GetOrdinal("ordenmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("ordenmodulo")),
-        //                                estadomodulo = reader.IsDBNull(reader.GetOrdinal("estadomodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("estadomodulo")),
-        //                                submodules = new List<SubModuloDTOResponse>()
-        //                            };
-
-        //                            SubModuloDTOResponse submodule = new SubModuloDTOResponse
-        //                            {
-        //                                idsubmodulo = reader.IsDBNull(reader.GetOrdinal("idsubmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("idsubmodulo")),
-        //                                nombresubmodulo = reader.IsDBNull(reader.GetOrdinal("nombresubmodulo")) ? null : reader.GetString(reader.GetOrdinal("nombresubmodulo")),
-        //                                iconosubmodulo = reader.IsDBNull(reader.GetOrdinal("iconosubmodulo")) ? null : reader.GetString(reader.GetOrdinal("iconosubmodulo")),
-        //                                rutasubmodulo = reader.IsDBNull(reader.GetOrdinal("rutasubmodulo")) ? null : reader.GetString(reader.GetOrdinal("rutasubmodulo")),
-        //                                nivelsubmodulo = reader.IsDBNull(reader.GetOrdinal("nivelsubmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("nivelsubmodulo")),
-        //                                ordensubmodulo = reader.IsDBNull(reader.GetOrdinal("ordensubmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("ordensubmodulo")),
-        //                                estadosubmodulo = reader.IsDBNull(reader.GetOrdinal("estadosubmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("estadosubmodulo")),
-        //                                items = new List<ItemModuloDTOResponse>()
-        //                            };
-
-        //                            ItemModuloDTOResponse item = new ItemModuloDTOResponse
-        //                            {
-        //                                iditemmodulo = reader.IsDBNull(reader.GetOrdinal("iditemmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("iditemmodulo")),
-        //                                nombreitemmodulo = reader.IsDBNull(reader.GetOrdinal("nombreitemmodulo")) ? null : reader.GetString(reader.GetOrdinal("nombreitemmodulo")),
-        //                                iconoitemmodulo = reader.IsDBNull(reader.GetOrdinal("iconoitemmodulo")) ? null : reader.GetString(reader.GetOrdinal("iconoitemmodulo")),
-        //                                rutaitemmodulo = reader.IsDBNull(reader.GetOrdinal("rutaitemmodulo")) ? null : reader.GetString(reader.GetOrdinal("rutaitemmodulo")),
-        //                                nivelitemmodulo = reader.IsDBNull(reader.GetOrdinal("nivelitemmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("nivelitemmodulo")),
-        //                                ordenitemmodulo = reader.IsDBNull(reader.GetOrdinal("ordenitemmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("ordenitemmodulo")),
-        //                                estadoitemmodulo = reader.IsDBNull(reader.GetOrdinal("estadoitemmodulo")) ? 0 : reader.GetInt32(reader.GetOrdinal("estadoitemmodulo"))
-        //                            };
-        //                            submodule.items.Add(item);
-        //                            module.submodules.Add(submodule);
-        //                            permissions.Add(module);
-        //                        }
-        //                    }
-        //                    else
-        //                    {
-        //                        Console.WriteLine("Error: ");
-
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Manejar la excepción
-        //        Console.WriteLine("Error: " + ex.Message);
-        //        throw; // O devuelve algún tipo de indicación de error adecuada
-        //    }
-
-        //    return permissions;
-        //}
-
-
-        //public async Task<UserAuth> ValidateUser(UserDTORequest request)
-        //{
-        //    using SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionAPP_BI());
-        //    using SqlCommand command = new SqlCommand("USP_ValidateUserRombi", connection);
-        //    command.CommandType = CommandType.StoredProcedure;
-
-        //    command.Parameters.AddWithValue("@CodPais", request.CodPais);
-        //    command.Parameters.AddWithValue("@Usuario", request.Usuario);
-        //    command.Parameters.AddWithValue("@Clave", request.Clave);
-
-        //    await connection.OpenAsync();
-
-        //    using SqlDataReader reader = await command.ExecuteReaderAsync();
-        //    if (reader.Read())
-        //    {
-        //        // Mapea los resultados del procedimiento almacenado a un objeto Usuario
-        //        UserAuth usuarios = new UserAuth
-        //        {
-        //            IdUsuario = reader.GetInt32(reader.GetOrdinal("IDUSUARIO")),
-        //            Nombres = reader.GetString(reader.GetOrdinal("NOMBRES")),
-        //            ApellidoPaterno = reader.GetString(reader.GetOrdinal("APELLIDOPATERNO")),
-        //            ApellidoMaterno = reader.GetString(reader.GetOrdinal("APELLIDOMATERNO")),
-        //            Correo = reader.GetString(reader.GetOrdinal("CORREO")),
-        //            Usuario = reader.GetString(reader.GetOrdinal("USUARIO")),
-        //            Clave = reader.GetString(reader.GetOrdinal("CLAVE")),
-        //            CodPais = reader.GetString(reader.GetOrdinal("COD_PAIS")),
-        //            CodNegocio = reader.GetString(reader.GetOrdinal("COD_NEGOCIO")),
-        //            CodCuenta = reader.GetString(reader.GetOrdinal("COD_CUENTA")),
-        //            EsAdmin = reader.GetBoolean(reader.GetOrdinal("ES_ADMIN"))
-        //        };
-
-        //        return usuarios;
-        //    }
-
-        //    return null; // Usuario no encontrado
-        //}
         //public async Task<UserAuth> ValidateUser(UserDTORequest request)
         //{
         //    try
@@ -405,28 +338,16 @@ namespace RombiBack.Security.Auth.Repsitory
         //            using (SqlCommand command = new SqlCommand("USP_ValidateUserRombi", connection))
         //            {
         //                command.CommandType = CommandType.StoredProcedure;
-        //                command.Parameters.AddWithValue("@CodPais", request.CodPais);
-        //                command.Parameters.AddWithValue("@Usuario", request.Usuario);
-        //                command.Parameters.AddWithValue("@Clave", request.Clave);
+        //                command.Parameters.Add("@CodPais", SqlDbType.VarChar, 50).Value = request.codpais;
+        //                command.Parameters.Add("@Usuario", SqlDbType.VarChar, 50).Value = request.user;
+        //                command.Parameters.Add("@Clave", SqlDbType.VarChar, 50).Value = request.password;
 
         //                using (SqlDataReader reader = await command.ExecuteReaderAsync())
         //                {
-        //                    if (reader.Read())
+        //                    if (reader.HasRows)
         //                    {
-        //                        return new UserAuth
-        //                        {
-        //                            IdUsuario = reader.GetInt32(reader.GetOrdinal("IDUSUARIO")),
-        //                            Nombres = reader.GetString(reader.GetOrdinal("NOMBRES")),
-        //                            ApellidoPaterno = reader.GetString(reader.GetOrdinal("APELLIDOPATERNO")),
-        //                            ApellidoMaterno = reader.GetString(reader.GetOrdinal("APELLIDOMATERNO")),
-        //                            Correo = reader.GetString(reader.GetOrdinal("CORREO")),
-        //                            Usuario = reader.GetString(reader.GetOrdinal("USUARIO")),
-        //                            Clave = reader.GetString(reader.GetOrdinal("CLAVE")),
-        //                            CodPais = reader.GetString(reader.GetOrdinal("COD_PAIS")),
-        //                            CodNegocio = reader.GetString(reader.GetOrdinal("COD_NEGOCIO")),
-        //                            CodCuenta = reader.GetString(reader.GetOrdinal("COD_CUENTA")),
-        //                            EsAdmin = reader.GetBoolean(reader.GetOrdinal("ES_ADMIN"))
-        //                        };
+        //                        await reader.ReadAsync();
+        //                        return GetUserFromReader(reader);
         //                    }
         //                }
         //            }
@@ -441,60 +362,25 @@ namespace RombiBack.Security.Auth.Repsitory
 
         //    return null; // Usuario no encontrado
         //}
-        public async Task<UserAuth> ValidateUser(UserDTORequest request)
-        {
-            try
-            {
-                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionAPP_BI()))
-                {
-                    await connection.OpenAsync();
 
-                    using (SqlCommand command = new SqlCommand("USP_ValidateUserRombi", connection))
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.Add("@CodPais", SqlDbType.VarChar, 50).Value = request.codpais;
-                        command.Parameters.Add("@Usuario", SqlDbType.VarChar, 50).Value = request.user;
-                        command.Parameters.Add("@Clave", SqlDbType.VarChar, 50).Value = request.password;
-
-                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
-                        {
-                            if (reader.HasRows)
-                            {
-                                await reader.ReadAsync();
-                                return GetUserFromReader(reader);
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // Manejar la excepción de manera adecuada
-                // Registrar o lanzar la excepción según corresponda
-                Console.WriteLine($"Error en ValidateUser: {ex.Message}");
-            }
-
-            return null; // Usuario no encontrado
-        }
-
-        private UserAuth GetUserFromReader(SqlDataReader reader)
-        {
-            return new UserAuth
-            {
-                idusuario = reader.GetInt32(reader.GetOrdinal("IDUSUARIO")),
-                nombres = reader.GetString(reader.GetOrdinal("NOMBRES")),
-                apellidopaterno = reader.GetString(reader.GetOrdinal("APELLIDOPATERNO")),
-                apellidomaterno = reader.GetString(reader.GetOrdinal("APELLIDOMATERNO")),
-                idjerarquia = reader.GetInt32(reader.GetOrdinal("IDJERARQUIA")),
-                correo = reader.GetString(reader.GetOrdinal("CORREO")),
-                usuario = reader.GetString(reader.GetOrdinal("USUARIO")),
-                clave = reader.GetString(reader.GetOrdinal("CLAVE")),
-                cod_pais = reader.GetString(reader.GetOrdinal("COD_PAIS")),
-                cod_negocio = reader.GetString(reader.GetOrdinal("COD_NEGOCIO")),
-                cod_cuenta = reader.GetString(reader.GetOrdinal("COD_CUENTA")),
-                es_admin = reader.GetString(reader.GetOrdinal("ES_ADMIN"))
-            };
-        }
+        //private UserAuth GetUserFromReader(SqlDataReader reader)
+        //{
+        //    return new UserAuth
+        //    {
+        //        idusuario = reader.GetInt32(reader.GetOrdinal("IDUSUARIO")),
+        //        nombres = reader.GetString(reader.GetOrdinal("NOMBRES")),
+        //        apellidopaterno = reader.GetString(reader.GetOrdinal("APELLIDOPATERNO")),
+        //        apellidomaterno = reader.GetString(reader.GetOrdinal("APELLIDOMATERNO")),
+        //        idjerarquia = reader.GetInt32(reader.GetOrdinal("IDJERARQUIA")),
+        //        correo = reader.GetString(reader.GetOrdinal("CORREO")),
+        //        usuario = reader.GetString(reader.GetOrdinal("USUARIO")),
+        //        clave = reader.GetString(reader.GetOrdinal("CLAVE")),
+        //        cod_pais = reader.GetString(reader.GetOrdinal("COD_PAIS")),
+        //        cod_negocio = reader.GetString(reader.GetOrdinal("COD_NEGOCIO")),
+        //        cod_cuenta = reader.GetString(reader.GetOrdinal("COD_CUENTA")),
+        //        es_admin = reader.GetString(reader.GetOrdinal("ES_ADMIN"))
+        //    };
+        //}
 
 
 
