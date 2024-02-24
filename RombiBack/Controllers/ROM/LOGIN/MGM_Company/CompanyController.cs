@@ -16,7 +16,6 @@ namespace RombiBack.Controllers.ROM.LOGIN.MGM_Company
             _companyService = companyService;
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetCompanys()
         {
