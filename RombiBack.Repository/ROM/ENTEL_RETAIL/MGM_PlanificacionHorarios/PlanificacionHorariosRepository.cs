@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RombiBack.Abstraction;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Reflection.PortableExecutable;
 
 namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
 {
@@ -79,7 +80,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             }
         }
 
-        public async Task PostTurnosSupervisor(TurnosSupervisorRequest turnosSupervisor)
+        public async Task<Respuesta> PostTurnosSupervisor(TurnosSupervisorRequest turnosSupervisor)
         {
             try
             {
@@ -96,9 +97,29 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                         cmd.Parameters.Add("@descripcion", SqlDbType.VarChar).Value = turnosSupervisor.descripcion;
                         cmd.Parameters.Add("@idtipoturno", SqlDbType.Int).Value = turnosSupervisor.idtipoturno;
 
-                        await cmd.ExecuteNonQueryAsync();
+                        using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
+                        {
+                            //if (rdr.Read())
+                            //{
+                            //    Respuesta rt = new Respuesta();
+                            //    rdr = rt.Mensaje;
+
+                            //}
+
+                            Respuesta respuesta = new Respuesta();
+                            while (await rdr.ReadAsync())
+                            {
+                                respuesta.Mensaje = rdr.GetString(rdr.GetOrdinal("Mensaje"));
+                             
+                                // Puedes manejar múltiples filas si es necesario
+                                // Por ejemplo, almacenar cada resultado en una lista
+                            }
+
+                            return respuesta;
+                        }
                     }
                 }
+
             }
             catch (SqlException ex)
             {
@@ -114,10 +135,9 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                 }
             }
         }
-
-
-
-
     }
+
+
+
 }
 
