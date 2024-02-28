@@ -29,10 +29,9 @@ namespace RombiBack.Services.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
 
         }
 
-        public async Task<string> PostTurnosSupervisor(TurnosSupervisorRequest turnossuper)
+        public async Task PostTurnosSupervisor(TurnosSupervisorRequest turnossuper)
         {
-            var turnosuper = await _planificacionHorariosRepository.PostTurnosSupervisor(turnossuper);
-            return turnosuper;
+             await _planificacionHorariosRepository.PostTurnosSupervisor(turnossuper);
            
         }
     }

@@ -10,8 +10,8 @@ namespace RombiBack.Entities.ROM.ENTEL_RETAIL.Models.PlanificacionHorarios
     {
       
         public string? usuario { get; set; }
-        public TimeSpan? horarioentrada { get; set; }
-        public TimeSpan? horariosalida { get; set; }
+        public string? horarioentrada { get; set; }
+        public string? horariosalida { get; set; }
         public string? descripcion { get; set; }
         public int? idtipoturno { get; set; }
 

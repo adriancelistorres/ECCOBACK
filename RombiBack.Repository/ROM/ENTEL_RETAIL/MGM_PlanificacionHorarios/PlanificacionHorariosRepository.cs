@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RombiBack.Abstraction;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
 {
@@ -45,8 +46,8 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                                     TurnosSupervisor trn = new TurnosSupervisor();
                                     trn.idturnos = reader.GetInt32(reader.GetOrdinal("idturnos"));
                                     trn.usuario = reader.GetString(reader.GetOrdinal("usuario"));
-                                    trn.horarioentrada = reader.GetTimeSpan(reader.GetOrdinal("horarioentrada"));
-                                    trn.horariosalida = reader.GetTimeSpan(reader.GetOrdinal("horariosalida"));
+                                    trn.horarioentrada = reader.GetString(reader.GetOrdinal("horarioentrada"));
+                                    trn.horariosalida = reader.GetString(reader.GetOrdinal("horariosalida"));
                                     trn.descripcion = reader.GetString(reader.GetOrdinal("descripcion"));
                                     trn.idtipoturno = reader.GetInt32(reader.GetOrdinal("idtipoturno"));
                                     trn.estado = reader.GetInt32(reader.GetOrdinal("estado"));
@@ -78,40 +79,45 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             }
         }
 
-        public async Task<string> PostTurnosSupervisor(TurnosSupervisorRequest turnossuper)
+        public async Task PostTurnosSupervisor(TurnosSupervisorRequest turnosSupervisor)
         {
-            string mensaje = "";
-
-            using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+            try
             {
-                await connection.OpenAsync();
-
-                try
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
                 {
-                    SqlCommand cmd = new SqlCommand("USP_POSTTURNOSUPERVISOR", connection);
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    await connection.OpenAsync();
 
-                    cmd.Parameters.Add(new SqlParameter("@usuario", SqlDbType.VarChar) { Value = turnossuper.usuario });
-                    cmd.Parameters.Add(new SqlParameter("@horarioentrada", SqlDbType.Time) { Value = turnossuper.horarioentrada });
-                    cmd.Parameters.Add(new SqlParameter("@horariosalida", SqlDbType.Time) { Value = turnossuper.horariosalida });
-                    cmd.Parameters.Add(new SqlParameter("@descripcion", SqlDbType.VarChar) { Value = turnossuper.descripcion });
-                    cmd.Parameters.Add(new SqlParameter("@idtipoturno", SqlDbType.Int) { Value = turnossuper.idtipoturno });
-                    var outputParameter = new SqlParameter("@mensaje", SqlDbType.VarChar, 100);
-                    outputParameter.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(outputParameter);
-                    await cmd.ExecuteNonQueryAsync();
-                    mensaje = cmd.Parameters["@mensaje"].Value.ToString();
+                    using (SqlCommand cmd = new SqlCommand("USP_POSTTURNOSUPERVISOR", connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@usuario", SqlDbType.VarChar).Value = turnosSupervisor.usuario;
+                        cmd.Parameters.Add("@horarioentrada", SqlDbType.VarChar).Value = turnosSupervisor.horarioentrada;
+                        cmd.Parameters.Add("@horariosalida", SqlDbType.VarChar).Value = turnosSupervisor.horariosalida;
+                        cmd.Parameters.Add("@descripcion", SqlDbType.VarChar).Value = turnosSupervisor.descripcion;
+                        cmd.Parameters.Add("@idtipoturno", SqlDbType.Int).Value = turnosSupervisor.idtipoturno;
 
+                        await cmd.ExecuteNonQueryAsync();
+                    }
                 }
-                catch (SqlException ex) when (ex.Number == 50000)
-                {
-                    // Manejar la excepción específica de horarios duplicados
-                    throw new Exception("Ya existe un turno con el mismo horario para este usuario.", ex);
-                }
-
             }
-            return mensaje;
-
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627 || ex.Number == 2601)
+                {
+                    // Código 2627 y 2601: Violación de restricción de clave única
+                    throw new InvalidOperationException("Ya existe un turno con el mismo horario para este usuario.");
+                }
+                else
+                {
+                    // Otros errores de base de datos
+                    throw new InvalidOperationException("Ocurrió un error al insertar el turno.");
+                }
+            }
         }
+
+
+
+
     }
 }
+

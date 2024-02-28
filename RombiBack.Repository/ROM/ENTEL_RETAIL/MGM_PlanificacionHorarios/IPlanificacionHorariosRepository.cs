@@ -11,7 +11,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
     public interface IPlanificacionHorariosRepository
     {
         Task<List<TurnosSupervisor>> GetTurnosSupervisor(string usuario);
-        Task<string> PostTurnosSupervisor(TurnosSupervisorRequest turnossuper);
+        Task PostTurnosSupervisor(TurnosSupervisorRequest turnossuper);
 
 
     }
