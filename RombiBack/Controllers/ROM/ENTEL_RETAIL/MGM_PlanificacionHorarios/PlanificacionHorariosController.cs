@@ -28,8 +28,8 @@ namespace RombiBack.Controllers.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             return Ok(turnosSupervisors);
         }
 
-        [HttpPost("GetTurnosSupervisor")]
-        public async Task<IActionResult> GetTurnosSupervisor([FromBody] TurnosSupervisorRequest turnos)
+        [HttpPost("PostTurnosSupervisor")]
+        public async Task<IActionResult> PostTurnosSupervisor([FromBody] TurnosSupervisorRequest turnos)
         {
 
             var turnosSupervisors = await _planificacionHorariosServices.PostTurnosSupervisor(turnos);
