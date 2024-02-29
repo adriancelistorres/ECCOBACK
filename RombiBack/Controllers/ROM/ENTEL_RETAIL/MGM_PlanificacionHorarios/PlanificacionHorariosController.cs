@@ -34,5 +34,57 @@ namespace RombiBack.Controllers.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             var respuesta= await _planificacionHorariosServices.PostTurnosSupervisor(turnos);
             return Ok(respuesta);
         }
+
+        [HttpPost("PutTurnosSupervisor")]
+        public async Task<IActionResult> PutTurnosSupervisor([FromBody] TurnosSupervisor turnos)
+        {
+            var respuesta = await _planificacionHorariosServices.PutTurnosSupervisor(turnos);
+            return Ok(respuesta);
+        }
+
+        [HttpPost("DeleteTurnosSupervisor")]
+        public async Task<IActionResult> DeleteTurnosSupervisor([FromBody] TurnosSupervisor turnos)
+        {
+            var respuesta = await _planificacionHorariosServices.DeleteTurnosSupervisor(turnos);
+            return Ok(respuesta);
+        }
+
+
+        [HttpPost("GetSupervisorPDV")]
+        public async Task<IActionResult> GetSupervisorPDV([FromBody] TurnosSupervisor userdata)
+        {
+
+            var pdvsupervisor = await _planificacionHorariosServices.GetSupervisorPDV(userdata.usuario);
+            return Ok(pdvsupervisor);
+        }
+
+
+
+        [HttpPost("GetTurnosDisponiblePDV")]
+        public async Task<IActionResult> GetTurnosDisponiblePDV([FromBody] TurnosDisponiblesPdvRequest turnosdispopdv)
+        {
+            var turnosdispo = await _planificacionHorariosServices.GetTurnosDisponiblePDV(turnosdispopdv);
+            return Ok(turnosdispo);
+        }
+
+
+        [HttpPost("PostTurnosPDV")]
+        public async Task<IActionResult> PostTurnosPDV([FromBody] TurnosPdvRequest turnospdv)
+        {
+            var turnospdvres = await _planificacionHorariosServices.PostTurnosPDV(turnospdv);
+            return Ok(turnospdvres);
+        }
+
+
+
+        [HttpPost("GetTurnosAsignadosPDV")]
+        public async Task<IActionResult> GetTurnosAsignadosPDV([FromBody] TurnosDisponiblesPdvRequest turnosasig)
+        {
+            var turnosasignados = await _planificacionHorariosServices.GetTurnosAsignadosPDV(turnosasig);
+            return Ok(turnosasignados);
+        }
+
+
+
     }
 }

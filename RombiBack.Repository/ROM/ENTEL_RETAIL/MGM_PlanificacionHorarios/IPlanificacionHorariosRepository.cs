@@ -12,6 +12,14 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
     {
         Task<List<TurnosSupervisor>> GetTurnosSupervisor(string usuario);
         Task<Respuesta> PostTurnosSupervisor(TurnosSupervisorRequest turnossuper);
+        Task<Respuesta> PutTurnosSupervisor(TurnosSupervisor turnossuper);
+        Task<Respuesta> DeleteTurnosSupervisor(TurnosSupervisor turnossuper);
+
+        Task<List<SupervisorPdvResponse>> GetSupervisorPDV(string usuario);
+        Task<List<TurnosSupervisor>> GetTurnosDisponiblePDV(TurnosDisponiblesPdvRequest turnodispo);
+        Task<Respuesta> PostTurnosPDV(TurnosPdvRequest turnospdv);
+        Task<List<TurnosSupervisor>> GetTurnosAsignadosPDV(TurnosDisponiblesPdvRequest turnodispo);
+
 
 
     }

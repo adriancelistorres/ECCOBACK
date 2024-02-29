@@ -99,13 +99,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
 
                         using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
                         {
-                            //if (rdr.Read())
-                            //{
-                            //    Respuesta rt = new Respuesta();
-                            //    rdr = rt.Mensaje;
-
-                            //}
-
+                            
                             Respuesta respuesta = new Respuesta();
                             while (await rdr.ReadAsync())
                             {
@@ -135,6 +129,320 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                 }
             }
         }
+
+
+        public async Task<Respuesta> PutTurnosSupervisor(TurnosSupervisor turnossuper)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("USP_PUTTURNOSSUPERVISOR", connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure; 
+                        cmd.Parameters.Add("@idturnos", SqlDbType.Int).Value = turnossuper.idturnos;
+                        cmd.Parameters.Add("@usuario", SqlDbType.VarChar).Value = turnossuper.usuario;
+                        cmd.Parameters.Add("@horarioentrada", SqlDbType.VarChar).Value = turnossuper.horarioentrada;
+                        cmd.Parameters.Add("@horariosalida", SqlDbType.VarChar).Value = turnossuper.horariosalida;
+                        cmd.Parameters.Add("@descripcion", SqlDbType.VarChar).Value = turnossuper.descripcion;
+
+                        using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
+                        {
+
+                            Respuesta respuesta = new Respuesta();
+                            while (await rdr.ReadAsync())
+                            {
+                                respuesta.Mensaje = rdr.GetString(rdr.GetOrdinal("Mensaje"));
+
+                                // Puedes manejar múltiples filas si es necesario
+                                // Por ejemplo, almacenar cada resultado en una lista
+                            }
+
+                            return respuesta;
+                        }
+                    }
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627 || ex.Number == 2601)
+                {
+                    // Código 2627 y 2601: Violación de restricción de clave única
+                    throw new InvalidOperationException("Ya existe un turno con el mismo horario para este usuario.");
+                }
+                else
+                {
+                    // Otros errores de base de datos
+                    throw new InvalidOperationException("Ocurrió un error al insertar el turno.");
+                }
+            }
+        }
+
+        public async Task<Respuesta> DeleteTurnosSupervisor(TurnosSupervisor turnossuper)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("USP_DELETETURNOSSUPERVISOR", connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idturnos", SqlDbType.Int).Value = turnossuper.idturnos;
+                        cmd.Parameters.Add("@usuario", SqlDbType.VarChar).Value = turnossuper.usuario;
+                       
+
+                        using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
+                        {
+
+                            Respuesta respuesta = new Respuesta();
+                            while (await rdr.ReadAsync())
+                            {
+                                respuesta.Mensaje = rdr.GetString(rdr.GetOrdinal("Mensaje"));
+
+                                // Puedes manejar múltiples filas si es necesario
+                                // Por ejemplo, almacenar cada resultado en una lista
+                            }
+
+                            return respuesta;
+                        }
+                    }
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627 || ex.Number == 2601)
+                {
+                    // Código 2627 y 2601: Violación de restricción de clave única
+                    throw new InvalidOperationException("Ya existe un turno con el mismo horario para este usuario.");
+                }
+                else
+                {
+                    // Otros errores de base de datos
+                    throw new InvalidOperationException("Ocurrió un error al insertar el turno.");
+                }
+            }
+        }
+
+
+
+        public async Task<List<SupervisorPdvResponse>> GetSupervisorPDV(string usuario)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+
+                    using (SqlCommand command = new SqlCommand("USP_GETSUPERVISORPDV", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add("@usuario", SqlDbType.VarChar).Value = usuario;
+
+
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (reader.HasRows)
+                            {
+                                List<SupervisorPdvResponse> response = new List<SupervisorPdvResponse>();
+
+                                while (await reader.ReadAsync())
+                                {
+                                    SupervisorPdvResponse supervisorpdv = new SupervisorPdvResponse();
+                                    supervisorpdv.usuario = reader.GetString(reader.GetOrdinal("usuario"));
+                                    supervisorpdv.idpuntoventarol = reader.GetInt32(reader.GetOrdinal("idpuntoventa_rol"));
+                                    supervisorpdv.puntoventa = reader.GetString(reader.GetOrdinal("puntoventa"));
+                                   
+
+                                    response.Add(supervisorpdv);
+                                }
+
+                                return response;
+                            }
+                            else
+                            {
+                                // No se encontraron resultados
+                                return new List<SupervisorPdvResponse>(); // Devuelve una lista vacía en lugar de null
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                // Por ejemplo, podrías registrar el error y devolver un mensaje de error adecuado
+                Console.WriteLine("Error: " + ex.Message);
+                throw; // O devuelve algún tipo de indicación de error adecuada
+            }
+        }
+
+
+
+        public async Task<List<TurnosSupervisor>> GetTurnosDisponiblePDV(TurnosDisponiblesPdvRequest turnodispo)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+
+                    using (SqlCommand command = new SqlCommand("USP_GETTURNOSDISPONIBLESPDV", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add("@usuario", SqlDbType.VarChar).Value = turnodispo.usuario;
+                        command.Parameters.Add("@idpdv", SqlDbType.Int).Value = turnodispo.idpdv;
+
+
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (reader.HasRows)
+                            {
+                                List<TurnosSupervisor> response = new List<TurnosSupervisor>();
+
+                                while (await reader.ReadAsync())
+                                {
+                                    TurnosSupervisor supervisorpdv = new TurnosSupervisor();
+                                    supervisorpdv.idturnos = reader.GetInt32(reader.GetOrdinal("idturnos"));
+                                    supervisorpdv.usuario = reader.GetString(reader.GetOrdinal("usuario"));
+                                    supervisorpdv.descripcion = reader.GetString(reader.GetOrdinal("descripcion"));
+                                    supervisorpdv.horarioentrada = reader.GetString(reader.GetOrdinal("horarioentrada"));
+                                    supervisorpdv.horariosalida = reader.GetString(reader.GetOrdinal("horariosalida"));
+                                    supervisorpdv.estado = reader.GetInt32(reader.GetOrdinal("estado"));
+
+
+                                    response.Add(supervisorpdv);
+                                }
+
+                                return response;
+                            }
+                            else
+                            {
+                                // No se encontraron resultados
+                                return new List<TurnosSupervisor>(); // Devuelve una lista vacía en lugar de null
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                // Por ejemplo, podrías registrar el error y devolver un mensaje de error adecuado
+                Console.WriteLine("Error: " + ex.Message);
+                throw; // O devuelve algún tipo de indicación de error adecuada
+            }
+        }
+
+        public async Task<Respuesta> PostTurnosPDV(TurnosPdvRequest turnospdv)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("USP_POSTTURNOSPDV", connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@usuario", SqlDbType.VarChar).Value = turnospdv.usuario;
+                        cmd.Parameters.Add("@idpdv", SqlDbType.Int).Value = turnospdv.idpdv;
+                        cmd.Parameters.Add("@puntoventa", SqlDbType.VarChar).Value = turnospdv.puntoventa;
+                        cmd.Parameters.Add("@idturnos", SqlDbType.Int).Value = turnospdv.idturnos;
+                        cmd.Parameters.Add("@estado", SqlDbType.Int).Value = turnospdv.estado;
+
+                        using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
+                        {
+
+                            Respuesta respuesta = new Respuesta();
+                            while (await rdr.ReadAsync())
+                            {
+                                respuesta.Mensaje = rdr.GetString(rdr.GetOrdinal("Mensaje"));
+
+                            }
+
+                            return respuesta;
+                        }
+                    }
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627 || ex.Number == 2601)
+                {
+                    // Código 2627 y 2601: Violación de restricción de clave única
+                    throw new InvalidOperationException("Ya existe un turno con el mismo horario para este usuario.");
+                }
+                else
+                {
+                    // Otros errores de base de datos
+                    throw new InvalidOperationException("Ocurrió un error al insertar el turno.");
+                }
+            }
+        }
+
+        public async Task<List<TurnosSupervisor>> GetTurnosAsignadosPDV(TurnosDisponiblesPdvRequest turnodispo)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+
+                    using (SqlCommand command = new SqlCommand("USP_GETTURNOSASIGNADOSPDV", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add("@usuario", SqlDbType.VarChar).Value = turnodispo.usuario;
+                        command.Parameters.Add("@idpdv", SqlDbType.Int).Value = turnodispo.idpdv;
+
+
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (reader.HasRows)
+                            {
+                                List<TurnosSupervisor> response = new List<TurnosSupervisor>();
+
+                                while (await reader.ReadAsync())
+                                {
+                                    TurnosSupervisor supervisorpdv = new TurnosSupervisor();
+                                    supervisorpdv.idturnos = reader.GetInt32(reader.GetOrdinal("idturnos"));
+                                    supervisorpdv.usuario = reader.GetString(reader.GetOrdinal("usuario"));
+                                    supervisorpdv.descripcion = reader.GetString(reader.GetOrdinal("descripcion"));
+                                    supervisorpdv.horarioentrada = reader.GetString(reader.GetOrdinal("horarioentrada"));
+                                    supervisorpdv.horariosalida = reader.GetString(reader.GetOrdinal("horariosalida"));
+                                    //supervisorpdv.estado = reader.GetInt32(reader.GetOrdinal("estado"));
+
+
+                                    response.Add(supervisorpdv);
+                                }
+
+                                return response;
+                            }
+                            else
+                            {
+                                // No se encontraron resultados
+                                return new List<TurnosSupervisor>(); // Devuelve una lista vacía en lugar de null
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                // Por ejemplo, podrías registrar el error y devolver un mensaje de error adecuado
+                Console.WriteLine("Error: " + ex.Message);
+                throw; // O devuelve algún tipo de indicación de error adecuada
+            }
+        }
+
+      
     }
 
 

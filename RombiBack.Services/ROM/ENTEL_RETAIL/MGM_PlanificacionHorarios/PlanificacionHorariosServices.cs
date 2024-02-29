@@ -22,6 +22,7 @@ namespace RombiBack.Services.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             _mapper = mapper;
         }
 
+     
         public async Task<List<TurnosSupervisor>> GetTurnosSupervisor(string usuario)
         {
             var turnosuper= await _planificacionHorariosRepository.GetTurnosSupervisor(usuario);
@@ -34,5 +35,43 @@ namespace RombiBack.Services.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
              var respuesta=await _planificacionHorariosRepository.PostTurnosSupervisor(turnossuper);
            return respuesta;
         }
+
+
+        public async Task<Respuesta> PutTurnosSupervisor(TurnosSupervisor turnossuper)
+        {
+            var respuesta = await _planificacionHorariosRepository.PutTurnosSupervisor(turnossuper);
+            return respuesta;
+        }
+
+        public async Task<Respuesta> DeleteTurnosSupervisor(TurnosSupervisor turnossuper)
+        {
+            var respuesta = await _planificacionHorariosRepository.DeleteTurnosSupervisor(turnossuper);
+            return respuesta;
+        }
+
+
+        public async Task<List<SupervisorPdvResponse>> GetSupervisorPDV(string usuario)
+        {
+            var respuesta = await _planificacionHorariosRepository.GetSupervisorPDV(usuario);
+            return respuesta;
+        }
+
+        public async Task<List<TurnosSupervisor>> GetTurnosDisponiblePDV(TurnosDisponiblesPdvRequest turnodispo)
+        {
+            var respuesta = await _planificacionHorariosRepository.GetTurnosDisponiblePDV(turnodispo);
+            return respuesta;
+        }
+        public async Task<Respuesta> PostTurnosPDV(TurnosPdvRequest turnospdv)
+        {
+            var respuesta = await _planificacionHorariosRepository.PostTurnosPDV(turnospdv);
+            return respuesta;
+        }
+        public async Task<List<TurnosSupervisor>> GetTurnosAsignadosPDV(TurnosDisponiblesPdvRequest turnodispo)
+        {
+            var respuesta = await _planificacionHorariosRepository.GetTurnosAsignadosPDV(turnodispo);
+            return respuesta;
+        }
+
+        
     }
 }
