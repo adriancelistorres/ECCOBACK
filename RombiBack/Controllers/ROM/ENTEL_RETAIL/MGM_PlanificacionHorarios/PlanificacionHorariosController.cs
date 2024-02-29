@@ -84,6 +84,12 @@ namespace RombiBack.Controllers.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             return Ok(turnosasignados);
         }
 
+        [HttpPost("DeleteTurnosPDV")]
+        public async Task<IActionResult> DeleteTurnosPDV([FromBody] TurnosPdvRequest turnospdv)
+        {
+            var turnospdvres = await _planificacionHorariosServices.DeleteTurnosPDV(turnospdv);
+            return Ok(turnospdvres);
+        }
 
 
     }

@@ -354,7 +354,6 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                         cmd.Parameters.Add("@idpdv", SqlDbType.Int).Value = turnospdv.idpdv;
                         cmd.Parameters.Add("@puntoventa", SqlDbType.VarChar).Value = turnospdv.puntoventa;
                         cmd.Parameters.Add("@idturnos", SqlDbType.Int).Value = turnospdv.idturnos;
-                        cmd.Parameters.Add("@estado", SqlDbType.Int).Value = turnospdv.estado;
 
                         using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
                         {
@@ -411,6 +410,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                                 while (await reader.ReadAsync())
                                 {
                                     TurnosSupervisor supervisorpdv = new TurnosSupervisor();
+                                    supervisorpdv.idpdvturno = reader.GetInt32(reader.GetOrdinal("idpdvturno"));
                                     supervisorpdv.idturnos = reader.GetInt32(reader.GetOrdinal("idturnos"));
                                     supervisorpdv.usuario = reader.GetString(reader.GetOrdinal("usuario"));
                                     supervisorpdv.descripcion = reader.GetString(reader.GetOrdinal("descripcion"));
@@ -442,7 +442,49 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             }
         }
 
-      
+        public async Task<Respuesta> DeleteTurnosPDV(TurnosPdvRequest turnospdv)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("USP_DELETETURNOSPDV", connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idpdvturno", SqlDbType.Int).Value = turnospdv.idpdvturno;
+                       
+                        using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
+                        {
+
+                            Respuesta respuesta = new Respuesta();
+                            while (await rdr.ReadAsync())
+                            {
+                                respuesta.Mensaje = rdr.GetString(rdr.GetOrdinal("Mensaje"));
+
+                            }
+
+                            return respuesta;
+                        }
+                    }
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627 || ex.Number == 2601)
+                {
+                    // Código 2627 y 2601: Violación de restricción de clave única
+                    throw new InvalidOperationException("Ya existe un turno con el mismo horario para este usuario.");
+                }
+                else
+                {
+                    // Otros errores de base de datos
+                    throw new InvalidOperationException("Ocurrió un error al insertar el turno.");
+                }
+            }
+        }
     }
 
 

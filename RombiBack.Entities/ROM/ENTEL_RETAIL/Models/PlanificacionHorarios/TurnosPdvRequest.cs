@@ -13,5 +13,8 @@ namespace RombiBack.Entities.ROM.ENTEL_RETAIL.Models.PlanificacionHorarios
         public string? puntoventa { get; set; }
         public int? idturnos { get; set; }
         public int? estado { get; set; }
+
+        public int? idpdvturno { get; set; }
+
     }
 }

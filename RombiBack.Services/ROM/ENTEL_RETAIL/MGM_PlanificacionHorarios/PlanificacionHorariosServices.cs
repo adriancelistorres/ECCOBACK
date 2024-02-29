@@ -72,6 +72,10 @@ namespace RombiBack.Services.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             return respuesta;
         }
 
-        
+        public async Task<Respuesta> DeleteTurnosPDV(TurnosPdvRequest turnospdv)
+        {
+            var respuesta = await _planificacionHorariosRepository.DeleteTurnosPDV(turnospdv);
+            return respuesta;
+        }
     }
 }
