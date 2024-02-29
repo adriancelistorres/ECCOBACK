@@ -61,9 +61,9 @@ namespace RombiBack.Services.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             var respuesta = await _planificacionHorariosRepository.GetTurnosDisponiblePDV(turnodispo);
             return respuesta;
         }
-        public async Task<Respuesta> PostTurnosPDV(TurnosPdvRequest turnospdv)
+        public async Task<Respuesta> PostTurnosPDV(List<TurnosPdvRequest> turnosPdvList)
         {
-            var respuesta = await _planificacionHorariosRepository.PostTurnosPDV(turnospdv);
+            var respuesta = await _planificacionHorariosRepository.PostTurnosPDV(turnosPdvList);
             return respuesta;
         }
         public async Task<List<TurnosSupervisor>> GetTurnosAsignadosPDV(TurnosDisponiblesPdvRequest turnodispo)

@@ -339,37 +339,38 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             }
         }
 
-        public async Task<Respuesta> PostTurnosPDV(TurnosPdvRequest turnospdv)
+        public async Task<Respuesta> PostTurnosPDV(List<TurnosPdvRequest> turnosPdvList)
         {
             try
             {
+                Respuesta ultimaRespuesta = new Respuesta(); // Inicializamos la respuesta fuera del bucle
+
                 using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
                 {
                     await connection.OpenAsync();
 
-                    using (SqlCommand cmd = new SqlCommand("USP_POSTTURNOSPDV", connection))
+                    foreach (var turnospdv in turnosPdvList)
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@usuario", SqlDbType.VarChar).Value = turnospdv.usuario;
-                        cmd.Parameters.Add("@idpdv", SqlDbType.Int).Value = turnospdv.idpdv;
-                        cmd.Parameters.Add("@puntoventa", SqlDbType.VarChar).Value = turnospdv.puntoventa;
-                        cmd.Parameters.Add("@idturnos", SqlDbType.Int).Value = turnospdv.idturnos;
-
-                        using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
+                        using (SqlCommand cmd = new SqlCommand("USP_POSTTURNOSPDV", connection))
                         {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.Add("@usuario", SqlDbType.VarChar).Value = turnospdv.usuario;
+                            cmd.Parameters.Add("@idpdv", SqlDbType.Int).Value = turnospdv.idpdv;
+                            cmd.Parameters.Add("@puntoventa", SqlDbType.VarChar).Value = turnospdv.puntoventa;
+                            cmd.Parameters.Add("@idturnos", SqlDbType.Int).Value = turnospdv.idturnos;
 
-                            Respuesta respuesta = new Respuesta();
-                            while (await rdr.ReadAsync())
+                            using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
                             {
-                                respuesta.Mensaje = rdr.GetString(rdr.GetOrdinal("Mensaje"));
-
+                                while (await rdr.ReadAsync())
+                                {
+                                    ultimaRespuesta.Mensaje = rdr.GetString(rdr.GetOrdinal("Mensaje"));
+                                }
                             }
-
-                            return respuesta;
                         }
                     }
                 }
-
+                // Devolver la última respuesta obtenida
+                return ultimaRespuesta;
             }
             catch (SqlException ex)
             {
@@ -385,6 +386,8 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                 }
             }
         }
+
+
 
         public async Task<List<TurnosSupervisor>> GetTurnosAsignadosPDV(TurnosDisponiblesPdvRequest turnodispo)
         {

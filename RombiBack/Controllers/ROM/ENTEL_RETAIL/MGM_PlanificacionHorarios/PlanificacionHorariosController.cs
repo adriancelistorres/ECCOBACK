@@ -69,7 +69,7 @@ namespace RombiBack.Controllers.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
 
 
         [HttpPost("PostTurnosPDV")]
-        public async Task<IActionResult> PostTurnosPDV([FromBody] TurnosPdvRequest turnospdv)
+        public async Task<IActionResult> PostTurnosPDV([FromBody] List<TurnosPdvRequest> turnospdv)
         {
             var turnospdvres = await _planificacionHorariosServices.PostTurnosPDV(turnospdv);
             return Ok(turnospdvres);
