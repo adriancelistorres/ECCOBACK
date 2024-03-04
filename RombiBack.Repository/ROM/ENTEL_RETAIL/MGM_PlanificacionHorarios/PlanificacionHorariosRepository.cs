@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RombiBack.Abstraction;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using System.Reflection.PortableExecutable;
 
 namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
@@ -471,7 +470,6 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                         }
                     }
                 }
-
             }
             catch (SqlException ex)
             {
@@ -487,7 +485,6 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                 }
             }
         }
-
 
         public async Task<List<FechasSemana>> ObtenerRangoSemana()
         {
@@ -535,14 +532,54 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             }
         }
 
+
+        public async Task<List<PromotorSupervisorPdvResponse>> GetPromotorSupervisorPDV(SupervisorPdvResponse promotorsuperpdv)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+                    using (SqlCommand command = new SqlCommand("USP_GETPROMOTORSUPERVISORPDV", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add("@usuario", SqlDbType.VarChar).Value = promotorsuperpdv.usuario;
+                        command.Parameters.Add("@idpuntoventarol", SqlDbType.Int).Value = promotorsuperpdv.idpuntoventarol;
+
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (reader.HasRows)
+                            {
+                                List<PromotorSupervisorPdvResponse> response = new List<PromotorSupervisorPdvResponse>();
+
+                                while (await reader.ReadAsync())
+                                {
+                                    PromotorSupervisorPdvResponse supervisorpdv = new PromotorSupervisorPdvResponse();
+                                    supervisorpdv.dnipromotor = reader.GetString(reader.GetOrdinal("dnipromotor"));
+                                    supervisorpdv.nombrepromotor = reader.GetString(reader.GetOrdinal("nombrepromotor"));
+                                    supervisorpdv.apellidopaternopromotor = reader.GetString(reader.GetOrdinal("apellidopaternopromotor"));
+                                    supervisorpdv.apellidomaternopromotor = reader.GetString(reader.GetOrdinal("apellidomaternopromotor"));
+                                    supervisorpdv.idpuntoventarol = reader.GetInt32(reader.GetOrdinal("idpuntoventa_rol"));
+                                    supervisorpdv.puntoventa = reader.GetString(reader.GetOrdinal("puntoventa"));
+                                   
+                                    response.Add(supervisorpdv);
+                                }
+                                return response;
+                            }
+                            else
+                            {
+                                return new List<PromotorSupervisorPdvResponse>(); 
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                throw; 
+            }
+        }
     }
-
-
 }
 
-
-public class FechasSemana
-{
-    public string lunes { get; set; }
-    public string domingo { get; set; }
-}

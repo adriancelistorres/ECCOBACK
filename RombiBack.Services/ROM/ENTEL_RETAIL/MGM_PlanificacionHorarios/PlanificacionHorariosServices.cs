@@ -83,5 +83,12 @@ namespace RombiBack.Services.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             var respuesta = await _planificacionHorariosRepository.ObtenerRangoSemana();
             return respuesta;
         }
+
+        public async Task<List<PromotorSupervisorPdvResponse>> GetPromotorSupervisorPDV(SupervisorPdvResponse promotorsuperpdv)
+        {
+            var respuesta = await _planificacionHorariosRepository.GetPromotorSupervisorPDV(promotorsuperpdv);
+            return respuesta;
+        }
+
     }
 }
