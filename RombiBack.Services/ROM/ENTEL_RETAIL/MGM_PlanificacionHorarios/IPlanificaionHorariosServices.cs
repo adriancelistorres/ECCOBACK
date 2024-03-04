@@ -21,6 +21,7 @@ namespace RombiBack.Services.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
         Task<List<TurnosSupervisor>> GetTurnosAsignadosPDV(TurnosDisponiblesPdvRequest turnodispo);
         Task<Respuesta> DeleteTurnosPDV(TurnosPdvRequest turnospdv);
 
+        Task<List<FechasSemana>> ObtenerRangoSemana();
 
     }
 }

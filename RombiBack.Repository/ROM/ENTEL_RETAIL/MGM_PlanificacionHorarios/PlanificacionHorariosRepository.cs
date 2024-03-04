@@ -487,9 +487,62 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                 }
             }
         }
-    }
 
+
+        public async Task<List<FechasSemana>> ObtenerRangoSemana()
+        {
+            try
+            {
+                using (var connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+
+                    using (var command = new SqlCommand("USP_GETCALENDARIOSEMANA", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            if (reader.HasRows)
+                            {
+                                var resultados = new List<FechasSemana>();
+
+                                while (await reader.ReadAsync())
+                                {
+                                    var fechaSemana = new FechasSemana
+                                    {
+                                        lunes = reader.GetString(reader.GetOrdinal("lunes")),
+                                        domingo = reader.GetString(reader.GetOrdinal("domingo"))
+                                    };
+
+                                    resultados.Add(fechaSemana);
+                                }
+
+                                return resultados;
+                            }
+                            else
+                            {
+                                return new List<FechasSemana>();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                throw; 
+            }
+        }
+
+    }
 
 
 }
 
+
+public class FechasSemana
+{
+    public string lunes { get; set; }
+    public string domingo { get; set; }
+}

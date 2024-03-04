@@ -77,5 +77,11 @@ namespace RombiBack.Services.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             var respuesta = await _planificacionHorariosRepository.DeleteTurnosPDV(turnospdv);
             return respuesta;
         }
+
+        public async Task<List<FechasSemana>> ObtenerRangoSemana()
+        {
+            var respuesta = await _planificacionHorariosRepository.ObtenerRangoSemana();
+            return respuesta;
+        }
     }
 }

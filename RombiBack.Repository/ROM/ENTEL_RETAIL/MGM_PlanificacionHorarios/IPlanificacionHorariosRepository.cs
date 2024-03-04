@@ -23,6 +23,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
         Task<Respuesta> DeleteTurnosPDV(TurnosPdvRequest turnospdv);
 
 
+        Task<List<FechasSemana>> ObtenerRangoSemana();
 
     }
 }

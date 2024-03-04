@@ -92,5 +92,11 @@ namespace RombiBack.Controllers.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
         }
 
 
+        [HttpGet("ObtenerRangoSemana")]
+        public async Task<IActionResult> ObtenerRangoSemana()
+        {
+            var obtener = await _planificacionHorariosServices.ObtenerRangoSemana();
+            return Ok(obtener);
+        }
     }
 }
