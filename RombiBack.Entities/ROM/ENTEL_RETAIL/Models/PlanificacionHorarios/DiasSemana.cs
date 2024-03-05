@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace RombiBack.Entities.ROM.ENTEL_RETAIL.Models.PlanificacionHorarios
 {
-    public class FechasSemana
+    public class DiasSemana
     {
-        public string lunes { get; set; }
-        public string domingo { get; set; }
+        public string dia {  get; set; }
+        public string fecha { get; set; }
     }
 }
