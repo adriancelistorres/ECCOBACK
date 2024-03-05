@@ -89,7 +89,7 @@ namespace RombiBack.Controllers.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             return Ok(turnospdvres);
         }
 
-        [HttpGet("ObtenerRangoSemana")]
+        [HttpGet("GetRangoSemana")]
         public async Task<IActionResult> ObtenerRangoSemana()
         {
             var obtener = await _planificacionHorariosServices.ObtenerRangoSemana();
@@ -102,6 +102,13 @@ namespace RombiBack.Controllers.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
         {
             var planificacionHorariosSuper = await _planificacionHorariosServices.GetPromotorSupervisorPDV(promotorsuperpdv);
             return Ok(planificacionHorariosSuper);
+        }
+
+        [HttpPost("GetDiasSemana")]
+        public async Task<IActionResult> GetDiasSemana([FromBody] FechasSemana fechassemana)
+        {
+            var obtener = await _planificacionHorariosServices.GetDiasSemana(fechassemana);
+            return Ok(obtener);
         }
 
     }

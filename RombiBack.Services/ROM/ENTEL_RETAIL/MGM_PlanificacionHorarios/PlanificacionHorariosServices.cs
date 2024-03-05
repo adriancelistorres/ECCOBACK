@@ -90,5 +90,11 @@ namespace RombiBack.Services.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             return respuesta;
         }
 
+        public async Task<FechasSemana> GetDiasSemana(FechasSemana fechassemana)
+        {
+            var respuesta = await _planificacionHorariosRepository.GetDiasSemana(fechassemana);
+            return respuesta;
+        }
+
     }
 }
