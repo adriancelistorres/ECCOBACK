@@ -102,5 +102,11 @@ namespace RombiBack.Services.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             return respuesta;
         }
 
+        public async Task<List<TurnosSupervisorPdvHorariosResponse>> GetTurnosSupervisorPDVHorarios(TurnosDisponiblesPdvRequest superpdv)
+        {
+            var respuesta = await _planificacionHorariosRepository.GetTurnosSupervisorPDVHorarios(superpdv);
+            return respuesta;
+        }
+
     }
 }

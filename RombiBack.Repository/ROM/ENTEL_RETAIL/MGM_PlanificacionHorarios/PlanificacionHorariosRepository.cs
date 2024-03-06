@@ -581,47 +581,6 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             }
         }
 
-        //public async Task<FechasSemana> GetDiasSemana(FechasSemana fechassemana)
-        //{
-        //    try
-        //    {
-        //        using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
-        //        {
-        //            await connection.OpenAsync();
-        //            using (SqlCommand cmd = new SqlCommand("USP_GETDIASSEMAMA", connection))
-        //            {
-        //                cmd.CommandType = CommandType.StoredProcedure;
-        //                cmd.Parameters.Add("@FechaInicio", SqlDbType.VarChar).Value = fechassemana.lunes;
-        //                cmd.Parameters.Add("@FechaFin", SqlDbType.VarChar).Value = fechassemana.domingo;
-
-        //                using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
-        //                {
-        //                    FechasSemana fechasSemana = new FechasSemana();
-
-        //                    while (await rdr.ReadAsync())
-        //                    {
-        //                        // Obtener los valores de los días de la semana del resultado y asignarlos a la instancia de FechasSemana
-        //                        fechasSemana.lunes = rdr.GetString(rdr.GetOrdinal("Lunes"));
-        //                        fechasSemana.martes = rdr.GetString(rdr.GetOrdinal("Martes"));
-        //                        fechasSemana.miercoles = rdr.GetString(rdr.GetOrdinal("Miercoles"));
-        //                        fechasSemana.jueves = rdr.GetString(rdr.GetOrdinal("Jueves"));
-        //                        fechasSemana.viernes = rdr.GetString(rdr.GetOrdinal("Viernes"));
-        //                        fechasSemana.sabado = rdr.GetString(rdr.GetOrdinal("Sabado"));
-        //                        fechasSemana.domingo = rdr.GetString(rdr.GetOrdinal("Domingo"));
-        //                    }
-
-        //                    // Devolver la instancia de FechasSemana
-        //                    return fechasSemana;
-        //                }
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine("Error: " + ex.Message);
-        //        throw;
-        //    }
-        //}
         public async Task<List<DiasSemana>> GetDiasSemana(FechasSemana fechassemana)
         {
             try
@@ -660,6 +619,57 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                 throw;
             }
         }
+
+        public async Task<List<TurnosSupervisorPdvHorariosResponse>> GetTurnosSupervisorPDVHorarios(TurnosDisponiblesPdvRequest superpdv)
+        {
+            try
+            {
+                
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+                    using (SqlCommand command = new SqlCommand("USP_GETTURNOSSUPERVISORPDVHORARIOS", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add("@usuario", SqlDbType.VarChar).Value = superpdv.usuario;
+                        command.Parameters.Add("@idpdv", SqlDbType.Int).Value = superpdv.idpdv;
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (reader.HasRows)
+                            {
+                                List<TurnosSupervisorPdvHorariosResponse> response = new List<TurnosSupervisorPdvHorariosResponse>();
+
+                                while (await reader.ReadAsync())
+                                {
+                                    TurnosSupervisorPdvHorariosResponse superpdvh = new TurnosSupervisorPdvHorariosResponse();
+                                    superpdvh.usuario = reader.GetString(reader.GetOrdinal("usuario"));
+                                    superpdvh.idturnos = reader.GetInt32(reader.GetOrdinal("idturnos"));
+                                    superpdvh.horarioentrada = reader.GetString(reader.GetOrdinal("horarioentrada"));
+                                    superpdvh.horariosalida = reader.GetString(reader.GetOrdinal("horariosalida"));
+                                    superpdvh.estadopdvturno = reader.GetInt32(reader.GetOrdinal("estadopdvturno"));
+                                    superpdvh.descripcion = reader.GetString(reader.GetOrdinal("descripcion"));
+                                    superpdvh.idtipoturno = reader.GetInt32(reader.GetOrdinal("idtipoturno"));
+                                    superpdvh.estadoturno = reader.GetInt32(reader.GetOrdinal("estadoturno"));
+
+                                    response.Add(superpdvh);
+                                }
+                                return response;
+                            }
+                            else
+                            {
+                                return new List<TurnosSupervisorPdvHorariosResponse>();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                throw;
+            }
+        }
+
 
     }
 }
