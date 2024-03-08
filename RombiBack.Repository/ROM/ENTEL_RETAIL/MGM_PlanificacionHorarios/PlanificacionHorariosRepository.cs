@@ -741,7 +741,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                         using (SqlCommand cmd = new SqlCommand("USP_GETHORARIOPLANIFICADO", connection))
                         {
                             cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.Parameters.Add("@inicio", SqlDbType.Date).Value = horarioplanpromo.inicio;
+                            cmd.Parameters.Add("@inicio", SqlDbType.VarChar).Value = horarioplanpromo.inicio;
                             cmd.Parameters.Add("@fin", SqlDbType.VarChar).Value = horarioplanpromo.fin;
                             cmd.Parameters.Add("@idpdv", SqlDbType.Int).Value = horarioplanpromo.idpdv;
                             cmd.Parameters.Add("@dnipromotor", SqlDbType.VarChar).Value = horarioplanpromo.dnipromotor;
@@ -755,7 +755,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                                     horarioapln.dnipromotor = reader.GetString(reader.GetOrdinal("dnipromotor"));
                                     horarioapln.idpdv = reader.GetInt32(reader.GetOrdinal("idpdv"));
                                     horarioapln.puntoventa = reader.GetString(reader.GetOrdinal("puntoventa"));
-                                    horarioapln.fecha = reader.GetString(reader.GetOrdinal("fecha"));
+                                    horarioapln.fecha = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("fecha")));
                                     horarioapln.horarioentrada = reader.GetString(reader.GetOrdinal("horarioentrada"));
                                     horarioapln.horariosalida = reader.GetString(reader.GetOrdinal("horariosalida"));
                                     horarioapln.descripcion = reader.GetString(reader.GetOrdinal("descripcion"));

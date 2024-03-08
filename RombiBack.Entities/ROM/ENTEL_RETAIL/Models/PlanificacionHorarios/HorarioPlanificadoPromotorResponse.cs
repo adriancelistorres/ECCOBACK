@@ -12,7 +12,7 @@ namespace RombiBack.Entities.ROM.ENTEL_RETAIL.Models.PlanificacionHorarios
         public string? dnipromotor { get; set; }
         public int? idpdv { get; set; }
         public string? puntoventa { get; set; }
-        public string? fecha { get; set; }
+        public DateOnly? fecha { get; set; }
         public string? horarioentrada { get; set; }
         public string? horariosalida { get; set; }
         public string? descripcion { get; set; }
