@@ -1,4 +1,5 @@
-﻿using RombiBack.Entities.ROM.ENTEL_RETAIL.Models.PlanificacionHorarios;
+﻿using Microsoft.AspNetCore.Mvc;
+using RombiBack.Entities.ROM.ENTEL_RETAIL.Models.PlanificacionHorarios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,5 +24,7 @@ namespace RombiBack.Services.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
         //Task<FechasSemana> GetDiasSemana(FechasSemana fechassemana);
         Task<List<DiasSemana>> GetDiasSemana(FechasSemana fechassemana);
         Task<List<TurnosSupervisorPdvHorariosResponse>> GetTurnosSupervisorPDVHorarios(TurnosDisponiblesPdvRequest superpdv);
+        Task<Respuesta> PostHorarioPlanificado(List<HorarioPlanificadoRequest> horarioPlanificados);
+
     }
 }

@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using RombiBack.Abstraction;
 using System.Reflection.PortableExecutable;
+using System.Data.Common;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
 {
@@ -670,7 +672,57 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             }
         }
 
+        public async Task<Respuesta> PostHorarioPlanificado(List<HorarioPlanificadoRequest> horarioPlanificados)
+        {
+            try
+            {
+                Respuesta ultimaRespuesta = new Respuesta(); // Inicializamos la respuesta fuera del bucle
 
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+
+                    foreach (var horarioplan in horarioPlanificados)
+                    {
+                        using (SqlCommand cmd = new SqlCommand("USP_POSTHORARIOPLANIFICADO", connection))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.Add("@dnipromotor", SqlDbType.VarChar).Value = horarioplan.dnipromotor;
+                            cmd.Parameters.Add("@idpdv", SqlDbType.Int).Value = horarioplan.idpdv;
+                            cmd.Parameters.Add("@puntoventa", SqlDbType.VarChar).Value = horarioplan.puntoventa;
+                            cmd.Parameters.Add("@fecha", SqlDbType.Date).Value = horarioplan.fecha;
+                            cmd.Parameters.Add("@horarioentrada", SqlDbType.VarChar).Value = horarioplan.horarioentrada;
+                            cmd.Parameters.Add("@horariosalida", SqlDbType.VarChar).Value = horarioplan.horariosalida;
+                            cmd.Parameters.Add("@descripcion", SqlDbType.VarChar).Value = horarioplan.descripcion;
+                            cmd.Parameters.Add("@usuario_creacion", SqlDbType.VarChar).Value = horarioplan.usuario_creacion;
+
+                            using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
+                            {
+                                while (await rdr.ReadAsync())
+                                {
+                                    ultimaRespuesta.Mensaje = rdr.GetString(rdr.GetOrdinal("Mensaje"));
+                                }
+                            }
+                        }
+                    }
+                }
+                // Devolver la última respuesta obtenida
+                return ultimaRespuesta;
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627 || ex.Number == 2601)
+                {
+                    // Código 2627 y 2601: Violación de restricción de clave única
+                    throw new InvalidOperationException("Ya existe un turno con el mismo horario para este usuario.");
+                }
+                else
+                {
+                    // Otros errores de base de datos
+                    throw new InvalidOperationException("Ocurrió un error al insertar el turno.");
+                }
+            }
+
+        }
     }
 }
-

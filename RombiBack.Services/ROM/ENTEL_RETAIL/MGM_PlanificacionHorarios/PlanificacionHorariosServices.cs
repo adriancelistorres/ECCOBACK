@@ -108,5 +108,10 @@ namespace RombiBack.Services.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             return respuesta;
         }
 
+        public async Task<Respuesta> PostHorarioPlanificado(List<HorarioPlanificadoRequest> horarioPlanificados)
+        {
+            var respuesta = await _planificacionHorariosRepository.PostHorarioPlanificado(horarioPlanificados);
+            return respuesta;
+        }
     }
 }

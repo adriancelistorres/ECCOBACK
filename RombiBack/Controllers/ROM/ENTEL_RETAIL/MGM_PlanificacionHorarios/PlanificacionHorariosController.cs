@@ -117,5 +117,32 @@ namespace RombiBack.Controllers.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             var obtener = await _planificacionHorariosServices.GetTurnosSupervisorPDVHorarios(superpdv);
             return Ok(obtener);
         }
+
+        [HttpPost("PostHorarioPlanificado")]
+        public async Task<IActionResult> PostHorarioPlanificado([FromBody] List<List<HorarioPlanificadoRequest>> horarioPlanificados)
+        {
+            try
+            {
+                List<HorarioPlanificadoRequest> listaHorarios = new List<HorarioPlanificadoRequest>();
+
+                foreach (var promotores in horarioPlanificados)
+                {
+                    foreach (var horarioPlanificado in promotores)
+                    {
+                        listaHorarios.Add(horarioPlanificado);
+                    }
+                }
+                Console.WriteLine(listaHorarios);
+                // Ahora tienes todos los objetos HorarioPlanificadoRequest en listaHorarios
+                // Puedes hacer cualquier cosa que necesites con esta lista
+                var obtener = await _planificacionHorariosServices.PostHorarioPlanificado(listaHorarios);
+                return Ok(obtener);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al procesar los datos: {ex.Message}");
+            }
+        }
+
     }
 }
