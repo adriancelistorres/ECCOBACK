@@ -25,6 +25,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
         Task<List<DiasSemana>> GetDiasSemana(FechasSemana fechassemana);
         Task<List<TurnosSupervisorPdvHorariosResponse>> GetTurnosSupervisorPDVHorarios(TurnosDisponiblesPdvRequest superpdv);
         Task<Respuesta> PostHorarioPlanificado(List<HorarioPlanificadoRequest> horarioPlanificados);
+        Task<List<HorarioPlanificadoPromotorResponse>> GetHorarioPlanificado(List<HorarioPlanificadoPromotorRequest> horarioPlanificadopromotor);
 
     }
 }

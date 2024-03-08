@@ -144,5 +144,12 @@ namespace RombiBack.Controllers.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             }
         }
 
+        [HttpPost("GetHorarioPlanificado")]
+        public async Task<IActionResult> GetHorarioPlanificado([FromBody] List<HorarioPlanificadoPromotorRequest> horarioplanificadopromotor)
+        {
+            var turnospdvres = await _planificacionHorariosServices.GetHorarioPlanificado(horarioplanificadopromotor);
+            return Ok(turnospdvres);
+        }
+
     }
 }

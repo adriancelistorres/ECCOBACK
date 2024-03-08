@@ -724,5 +724,70 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             }
 
         }
+
+
+        public async Task<List<HorarioPlanificadoPromotorResponse>> GetHorarioPlanificado(List<HorarioPlanificadoPromotorRequest> horarioPlanificadopromotor)
+        {
+            try
+            {
+                List<HorarioPlanificadoPromotorResponse> response = new List<HorarioPlanificadoPromotorResponse>();
+
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+
+                    foreach (var horarioplanpromo in horarioPlanificadopromotor)
+                    {
+                        using (SqlCommand cmd = new SqlCommand("USP_GETHORARIOPLANIFICADO", connection))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.Add("@inicio", SqlDbType.Date).Value = horarioplanpromo.inicio;
+                            cmd.Parameters.Add("@fin", SqlDbType.VarChar).Value = horarioplanpromo.fin;
+                            cmd.Parameters.Add("@idpdv", SqlDbType.Int).Value = horarioplanpromo.idpdv;
+                            cmd.Parameters.Add("@dnipromotor", SqlDbType.VarChar).Value = horarioplanpromo.dnipromotor;
+
+                            using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                            {
+                                while (await reader.ReadAsync())
+                                {
+                                    HorarioPlanificadoPromotorResponse horarioapln = new HorarioPlanificadoPromotorResponse();
+                                    horarioapln.idhorarioplanificado = reader.GetInt32(reader.GetOrdinal("idhorarioplanificado"));
+                                    horarioapln.dnipromotor = reader.GetString(reader.GetOrdinal("dnipromotor"));
+                                    horarioapln.idpdv = reader.GetInt32(reader.GetOrdinal("idpdv"));
+                                    horarioapln.puntoventa = reader.GetString(reader.GetOrdinal("puntoventa"));
+                                    horarioapln.fecha = reader.GetString(reader.GetOrdinal("fecha"));
+                                    horarioapln.horarioentrada = reader.GetString(reader.GetOrdinal("horarioentrada"));
+                                    horarioapln.horariosalida = reader.GetString(reader.GetOrdinal("horariosalida"));
+                                    horarioapln.descripcion = reader.GetString(reader.GetOrdinal("descripcion"));
+                                    horarioapln.usuario_creacion = reader.GetString(reader.GetOrdinal("usuario_creacion"));
+
+                                    response.Add(horarioapln);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return response;
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627 || ex.Number == 2601)
+                {
+                    // Código 2627 y 2601: Violación de restricción de clave única
+                    throw new InvalidOperationException("Ya existe un turno con el mismo horario para este usuario.");
+                }
+                else
+                {
+                    // Otros errores de base de datos
+                    throw new InvalidOperationException("Ocurrió un error al insertar el turno.");
+                }
+            }
+        }
+
+
+
+
+
     }
 }
