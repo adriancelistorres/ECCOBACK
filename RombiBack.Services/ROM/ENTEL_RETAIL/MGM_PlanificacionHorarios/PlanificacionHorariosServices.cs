@@ -119,6 +119,6 @@ namespace RombiBack.Services.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             var respuesta = await _planificacionHorariosRepository.GetHorarioPlanificado(horarioPlanificadopromotor);
             return respuesta;
         }
-    }
+    
     }
 }
