@@ -785,8 +785,106 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             }
         }
 
+ 
+        public async Task<List<ReportGetSemanaResponse>> ReportGetSemanaActual(HorarioPlanificadoRequest reporte)
+        {
+            try
+            {
+
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+                    using (SqlCommand command = new SqlCommand("USP_REPORTGETSEMANA_ACTUAL", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add("@usuario_creacion", SqlDbType.VarChar).Value = reporte.usuario_creacion;
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (reader.HasRows)
+                            {
+                                List<ReportGetSemanaResponse> response = new List<ReportGetSemanaResponse>();
+
+                                while (await reader.ReadAsync())
+                                {
+                                    ReportGetSemanaResponse reportsemactl = new ReportGetSemanaResponse();
+                                    reportsemactl.idhorarioplanificado = reader.GetInt32(reader.GetOrdinal("idhorarioplanificado"));
+                                    reportsemactl.dnipromotor = reader.GetString(reader.GetOrdinal("dnipromotor"));
+                                    reportsemactl.idpdv = reader.GetInt32(reader.GetOrdinal("idpdv"));
+                                    reportsemactl.puntoventa = reader.GetString(reader.GetOrdinal("puntoventa"));
+                                    reportsemactl.fecha = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("fecha")));
+                                    reportsemactl.horarioentrada = reader.GetString(reader.GetOrdinal("horarioentrada"));
+                                    reportsemactl.horariosalida = reader.GetString(reader.GetOrdinal("horariosalida"));
+                                    reportsemactl.descripcion = reader.GetString(reader.GetOrdinal("descripcion"));
+                                    reportsemactl.usuario_creacion = reader.GetString(reader.GetOrdinal("usuario_creacion"));
+
+                                    response.Add(reportsemactl);
+                                }
+                                return response;
+                            }
+                            else
+                            {
+                                return new List<ReportGetSemanaResponse>();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                throw;
+            }
+        }
 
 
+        public async Task<List<ReportGetSemanaResponse>> ReportGetSemanaAnterior(HorarioPlanificadoRequest reporte)
+        {
+            try
+            {
+
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+                    using (SqlCommand command = new SqlCommand("USP_REPORTGETSEMANA_ANTERIOR", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add("@usuario_creacion", SqlDbType.VarChar).Value = reporte.usuario_creacion;
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (reader.HasRows)
+                            {
+                                List<ReportGetSemanaResponse> response = new List<ReportGetSemanaResponse>();
+
+                                while (await reader.ReadAsync())
+                                {
+                                    ReportGetSemanaResponse reportsemactl = new ReportGetSemanaResponse();
+                                    reportsemactl.idhorarioplanificado = reader.GetInt32(reader.GetOrdinal("idhorarioplanificado"));
+                                    reportsemactl.dnipromotor = reader.GetString(reader.GetOrdinal("dnipromotor"));
+                                    reportsemactl.idpdv = reader.GetInt32(reader.GetOrdinal("idpdv"));
+                                    reportsemactl.puntoventa = reader.GetString(reader.GetOrdinal("puntoventa"));
+                                    reportsemactl.fecha = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("fecha")));
+                                    reportsemactl.horarioentrada = reader.GetString(reader.GetOrdinal("horarioentrada"));
+                                    reportsemactl.horariosalida = reader.GetString(reader.GetOrdinal("horariosalida"));
+                                    reportsemactl.descripcion = reader.GetString(reader.GetOrdinal("descripcion"));
+
+                                    response.Add(reportsemactl);
+                                }
+                                return response;
+                            }
+                            else
+                            {
+                                return new List<ReportGetSemanaResponse>();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                throw;
+            }
+        }
 
 
     }
