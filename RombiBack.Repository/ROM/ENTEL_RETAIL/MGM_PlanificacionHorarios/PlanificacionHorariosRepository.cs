@@ -488,7 +488,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             }
         }
 
-        public async Task<List<FechasSemana>> ObtenerRangoSemana()
+        public async Task<List<FechasSemana>> GetRangoSemana()
         {
             try
             {
@@ -496,7 +496,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                 {
                     await connection.OpenAsync();
 
-                    using (var command = new SqlCommand("USP_GETCALENDARIOSEMANA", connection))
+                    using (var command = new SqlCommand("USP_GETRANGOSEMANA", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
 

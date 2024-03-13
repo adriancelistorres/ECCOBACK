@@ -58,8 +58,6 @@ namespace RombiBack.Controllers.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             return Ok(pdvsupervisor);
         }
 
-
-
         [HttpPost("GetTurnosDisponiblePDV")]
         public async Task<IActionResult> GetTurnosDisponiblePDV([FromBody] TurnosDisponiblesPdvRequest turnosdispopdv)
         {
@@ -90,9 +88,9 @@ namespace RombiBack.Controllers.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
         }
 
         [HttpGet("GetRangoSemana")]
-        public async Task<IActionResult> ObtenerRangoSemana()
+        public async Task<IActionResult> GetRangoSemana()
         {
-            var obtener = await _planificacionHorariosServices.ObtenerRangoSemana();
+            var obtener = await _planificacionHorariosServices.GetRangoSemana();
             return Ok(obtener);
         }
 
