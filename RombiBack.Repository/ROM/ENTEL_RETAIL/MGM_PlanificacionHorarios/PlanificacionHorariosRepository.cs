@@ -797,7 +797,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                     using (SqlCommand command = new SqlCommand("USP_REPORTGETSEMANA_ACTUAL", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.Add("@usuario_creacion", SqlDbType.VarChar).Value = reporte.usuario_creacion;
+                        command.Parameters.Add("@usuario_creacion", SqlDbType.VarChar).Value = reporte.usuario;
                         using (SqlDataReader reader = await command.ExecuteReaderAsync())
                         {
                             if (reader.HasRows)
@@ -816,6 +816,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                                     reportsemactl.horariosalida = reader.GetString(reader.GetOrdinal("horariosalida"));
                                     reportsemactl.descripcion = reader.GetString(reader.GetOrdinal("descripcion"));
                                     reportsemactl.usuario_creacion = reader.GetString(reader.GetOrdinal("usuario_creacion"));
+                                    reportsemactl.estado = reader.GetInt32(reader.GetOrdinal("estado"));
 
                                     response.Add(reportsemactl);
                                 }
@@ -848,7 +849,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                     using (SqlCommand command = new SqlCommand("USP_REPORTGETSEMANA_ANTERIOR", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.Add("@usuario_creacion", SqlDbType.VarChar).Value = reporte.usuario_creacion;
+                        command.Parameters.Add("@usuario_creacion", SqlDbType.VarChar).Value = reporte.usuario;
                         using (SqlDataReader reader = await command.ExecuteReaderAsync())
                         {
                             if (reader.HasRows)
@@ -866,6 +867,8 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                                     reportsemactl.horarioentrada = reader.GetString(reader.GetOrdinal("horarioentrada"));
                                     reportsemactl.horariosalida = reader.GetString(reader.GetOrdinal("horariosalida"));
                                     reportsemactl.descripcion = reader.GetString(reader.GetOrdinal("descripcion"));
+                                    reportsemactl.usuario_creacion = reader.GetString(reader.GetOrdinal("usuario_creacion"));
+                                    reportsemactl.estado = reader.GetInt32(reader.GetOrdinal("estado"));
 
                                     response.Add(reportsemactl);
                                 }

@@ -20,5 +20,8 @@ namespace RombiBack.Entities.ROM.ENTEL_RETAIL.Models.PlanificacionHorarios
         public DateTime? fecha_modificacion { get; set; }
         public string? usuario_creacion { get; set; }
         public string? usuario_modificacion { get; set; }
+
+        //solo para los reportes 
+        public string?usuario { get; set; }
     }
 }
