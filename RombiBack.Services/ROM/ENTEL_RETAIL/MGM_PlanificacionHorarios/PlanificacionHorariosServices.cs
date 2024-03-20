@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RombiBack.Entities.ROM.ENTEL_RETAIL.Models.PlanificacionHorarios;
+using RombiBack.Entities.ROM.ENTEL_RETAIL.Models.Reports;
 using RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios;
 using RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_Products;
 using System;
@@ -122,6 +123,18 @@ namespace RombiBack.Services.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
         public async Task<List<ReportGetSemanaResponse>> ReportGetSemanaAnterior(HorarioPlanificadoRequest reporte)
         {
             var respuesta = await _planificacionHorariosRepository.ReportGetSemanaAnterior(reporte);
+            return respuesta;
+        }
+
+        public async Task<List<JefesResponse>> GetJefes()
+        {
+            var respuesta = await _planificacionHorariosRepository.GetJefes();
+            return respuesta;
+        }
+
+        public async Task<List<SupervisoresResponse>> GetSupervisores(string dnijefe)
+        {
+            var respuesta = await _planificacionHorariosRepository.GetSupervisores(dnijefe);
             return respuesta;
         }
     }

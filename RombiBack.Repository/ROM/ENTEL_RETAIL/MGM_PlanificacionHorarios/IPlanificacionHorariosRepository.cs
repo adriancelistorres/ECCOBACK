@@ -29,5 +29,10 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
         Task<List<ReportGetSemanaResponse>> ReportGetSemanaActual(HorarioPlanificadoRequest reporte);
         Task<List<ReportGetSemanaResponse>> ReportGetSemanaAnterior(HorarioPlanificadoRequest reporte);
 
+        Task<List<JefesResponse>> GetJefes();
+
+        Task<List<SupervisoresResponse>> GetSupervisores(string dnijefe);
+
+
     }
 }

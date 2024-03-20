@@ -33,7 +33,7 @@ namespace RombiBack.Security.Auth.Repsitory
                 {
                     await connection.OpenAsync();
 
-                    using (SqlCommand command = new SqlCommand("USP_ROMBILOGIN", connection))
+                    using (SqlCommand command = new SqlCommand("USP_ROMBILOGIN_BK", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.Add("@codempresa", SqlDbType.Char, 4).Value = request.codempresa; // Ajustar el tamaño del parámetro
@@ -49,7 +49,10 @@ namespace RombiBack.Security.Auth.Repsitory
                                 UserDTOResponse userAuth = new UserDTOResponse
                                 {
                                     Resultado = reader["Resultado"].ToString(),
-                                    Accede = Convert.ToInt32(reader["Accede"])
+                                    Accede = Convert.ToInt32(reader["Accede"]),
+                                    Perfil = reader["Perfil"].ToString(),
+
+
                                 };
                                 return userAuth;
                             }
@@ -59,7 +62,9 @@ namespace RombiBack.Security.Auth.Repsitory
                                 return new UserDTOResponse
                                 {
                                     Resultado = reader["Resultado"].ToString(),
-                                    Accede = Convert.ToInt32(reader["Accede"])
+                                    Accede = Convert.ToInt32(reader["Accede"]),
+                                    Perfil = reader["Perfil"].ToString(),
+
                                 };
                             }
                         }

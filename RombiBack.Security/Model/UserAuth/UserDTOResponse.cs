@@ -10,5 +10,7 @@ namespace RombiBack.Security.Model.UserAuth
     {
          public string Resultado { get; set; }
         public int Accede { get; set; }
+        public string? Perfil { get; set; }
+
     }
 }

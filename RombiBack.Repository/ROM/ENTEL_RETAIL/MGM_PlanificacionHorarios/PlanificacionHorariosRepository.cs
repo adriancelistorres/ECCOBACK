@@ -889,6 +889,106 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             }
         }
 
+        public async Task<List<JefesResponse>> GetJefes()
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
 
+                    using (SqlCommand command = new SqlCommand("USP_GETJEFES", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (reader.HasRows)
+                            {
+                                List<JefesResponse> response = new List<JefesResponse>();
+
+                                while (await reader.ReadAsync())
+                                {
+                                    JefesResponse jefesresponse = new JefesResponse();
+                                    jefesresponse.dnijefe = reader.GetString(reader.GetOrdinal("dnijefe"));
+                                    jefesresponse.nombrejefe = reader.GetString(reader.GetOrdinal("nombrejefe"));
+                                    jefesresponse.apellidopaternojefe = reader.GetString(reader.GetOrdinal("apellidopaternojefe"));
+                                    jefesresponse.apellidomaternojefe = reader.GetString(reader.GetOrdinal("apellidomaternojefe"));
+
+
+                                    response.Add(jefesresponse);
+                                }
+
+                                return response;
+                            }
+                            else
+                            {
+                                // No se encontraron resultados
+                                return new List<JefesResponse>(); // Devuelve una lista vacía en lugar de null
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                // Por ejemplo, podrías registrar el error y devolver un mensaje de error adecuado
+                Console.WriteLine("Error: " + ex.Message);
+                throw; // O devuelve algún tipo de indicación de error adecuada
+            }
+        }
+
+        public async Task<List<SupervisoresResponse>> GetSupervisores(string dnijefe)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+
+                    using (SqlCommand command = new SqlCommand("USP_GETSUPERVISORES", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add("@dnijefe", SqlDbType.VarChar).Value = dnijefe;
+
+
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (reader.HasRows)
+                            {
+                                List<SupervisoresResponse> response = new List<SupervisoresResponse>();
+
+                                while (await reader.ReadAsync())
+                                {
+                                    SupervisoresResponse supervisorresponse = new SupervisoresResponse();
+                                    supervisorresponse.dnisupervisor = reader.GetString(reader.GetOrdinal("dnisupervisor"));
+                                    supervisorresponse.nombresupervisor = reader.GetString(reader.GetOrdinal("nombresupervisor"));
+                                    supervisorresponse.apellidopaternosupervisor = reader.GetString(reader.GetOrdinal("apellidopaternosupervisor"));
+                                    supervisorresponse.apellidomaternosupervisor = reader.GetString(reader.GetOrdinal("apellidomaternosupervisor"));
+
+
+                                    response.Add(supervisorresponse);
+                                }
+
+                                return response;
+                            }
+                            else
+                            {
+                                // No se encontraron resultados
+                                return new List<SupervisoresResponse>(); // Devuelve una lista vacía en lugar de null
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                // Por ejemplo, podrías registrar el error y devolver un mensaje de error adecuado
+                Console.WriteLine("Error: " + ex.Message);
+                throw; // O devuelve algún tipo de indicación de error adecuada
+            }
+        }
     }
 }

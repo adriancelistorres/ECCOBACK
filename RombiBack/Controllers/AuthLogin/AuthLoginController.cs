@@ -45,6 +45,7 @@ namespace RombiBack.Controllers.AuthLogin
                 {
                     login.Resultado,
                     login.Accede,
+                    login.Perfil,
                     message = "Usuario válido",
                     token
                 });
@@ -56,6 +57,7 @@ namespace RombiBack.Controllers.AuthLogin
                 {
                     login.Resultado,
                     login.Accede,
+                    login.Perfil,
                     message = "Usuario inválido",
                     token
                 });

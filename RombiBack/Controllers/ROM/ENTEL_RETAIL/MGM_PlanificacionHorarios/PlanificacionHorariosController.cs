@@ -162,5 +162,21 @@ namespace RombiBack.Controllers.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
             var reportesres = await _planificacionHorariosServices.ReportGetSemanaAnterior(reporte);
             return Ok(reportesres);
         }
+
+
+        [HttpGet("GetJefes")]
+        public async Task<IActionResult> GetJefes()
+        {
+            var pdvsupervisor = await _planificacionHorariosServices.GetJefes();
+            return Ok(pdvsupervisor);
+        }
+
+
+        [HttpPost("GetSupervisores")]
+        public async Task<IActionResult> GetSupervisores(string dnijefe)
+        {
+            var pdvsupervisor = await _planificacionHorariosServices.GetSupervisores(dnijefe);
+            return Ok(pdvsupervisor);
+        }
     }
 }
