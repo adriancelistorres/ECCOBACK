@@ -89,7 +89,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                 {
                     await connection.OpenAsync();
 
-                    using (SqlCommand cmd = new SqlCommand("USP_POSTTURNOSUPERVISOR", connection))
+                    using (SqlCommand cmd = new SqlCommand("USP_POSTTURNOSUPERVISOR_BK", connection))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@usuario", SqlDbType.VarChar).Value = turnosSupervisor.usuario;
@@ -97,6 +97,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                         cmd.Parameters.Add("@horariosalida", SqlDbType.VarChar).Value = turnosSupervisor.horariosalida;
                         cmd.Parameters.Add("@descripcion", SqlDbType.VarChar).Value = turnosSupervisor.descripcion;
                         cmd.Parameters.Add("@idtipoturno", SqlDbType.Int).Value = turnosSupervisor.idtipoturno;
+                        cmd.Parameters.Add("@usuariocreacion", SqlDbType.VarChar).Value = turnosSupervisor.usuariocreacion;
 
                         using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
                         {
