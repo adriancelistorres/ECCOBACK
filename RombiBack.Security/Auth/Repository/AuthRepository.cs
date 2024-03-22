@@ -33,7 +33,7 @@ namespace RombiBack.Security.Auth.Repsitory
                 {
                     await connection.OpenAsync();
 
-                    using (SqlCommand command = new SqlCommand("USP_ROMBILOGIN_BK", connection))
+                    using (SqlCommand command = new SqlCommand("USP_ROMBILOGIN", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.Add("@codempresa", SqlDbType.Char, 4).Value = request.codempresa; // Ajustar el tamaño del parámetro

@@ -89,7 +89,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                 {
                     await connection.OpenAsync();
 
-                    using (SqlCommand cmd = new SqlCommand("USP_POSTTURNOSUPERVISOR_BK", connection))
+                    using (SqlCommand cmd = new SqlCommand("USP_POSTTURNOSUPERVISOR", connection))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@usuario", SqlDbType.VarChar).Value = turnosSupervisor.usuario;
