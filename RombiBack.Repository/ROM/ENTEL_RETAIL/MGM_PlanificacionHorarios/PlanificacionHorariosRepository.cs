@@ -97,7 +97,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                         cmd.Parameters.Add("@horariosalida", SqlDbType.VarChar).Value = turnosSupervisor.horariosalida;
                         cmd.Parameters.Add("@descripcion", SqlDbType.VarChar).Value = turnosSupervisor.descripcion;
                         cmd.Parameters.Add("@idtipoturno", SqlDbType.Int).Value = turnosSupervisor.idtipoturno;
-                        cmd.Parameters.Add("@usuariocreacion", SqlDbType.VarChar).Value = turnosSupervisor.usuariocreacion;
+                        cmd.Parameters.Add("@usuariocreacion", SqlDbType.VarChar).Value = turnosSupervisor.usuario_creacion;
 
                         using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
                         {

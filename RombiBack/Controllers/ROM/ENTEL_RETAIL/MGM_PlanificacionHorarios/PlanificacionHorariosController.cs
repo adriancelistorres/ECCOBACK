@@ -173,7 +173,7 @@ namespace RombiBack.Controllers.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
 
 
         [HttpPost("GetSupervisores")]
-        public async Task<IActionResult> GetSupervisores(string dnijefe)
+        public async Task<IActionResult> GetSupervisores([FromBody] string dnijefe)
         {
             var pdvsupervisor = await _planificacionHorariosServices.GetSupervisores(dnijefe);
             return Ok(pdvsupervisor);
