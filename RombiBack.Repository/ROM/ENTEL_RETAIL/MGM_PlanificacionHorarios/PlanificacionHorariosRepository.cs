@@ -54,7 +54,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                                     trn.idtipoturno = reader.GetInt32(reader.GetOrdinal("idtipoturno"));
                                     trn.estado = reader.GetInt32(reader.GetOrdinal("estado"));
                                     trn.fecha_creacion = reader.GetDateTime(reader.GetOrdinal("fecha_creacion"));
-                                    trn.fecha_modificacion = reader.GetDateTime(reader.GetOrdinal("fecha_modificacion"));
+                                    trn.fecha_modificacion = reader.IsDBNull(reader.GetOrdinal("fecha_modificacion")) ? (DateTime?)null : reader.GetDateTime(reader.GetOrdinal("fecha_modificacion"));
                                     trn.usuario_creacion = reader.GetString(reader.GetOrdinal("usuario_creacion"));
                                     trn.usuario_modificacion = reader.GetString(reader.GetOrdinal("usuario_modificacion"));
 
@@ -97,7 +97,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                         cmd.Parameters.Add("@horariosalida", SqlDbType.VarChar).Value = turnosSupervisor.horariosalida;
                         cmd.Parameters.Add("@descripcion", SqlDbType.VarChar).Value = turnosSupervisor.descripcion;
                         cmd.Parameters.Add("@idtipoturno", SqlDbType.Int).Value = turnosSupervisor.idtipoturno;
-                        cmd.Parameters.Add("@usuariocreacion", SqlDbType.VarChar).Value = turnosSupervisor.usuario_creacion;
+                        cmd.Parameters.Add("@usuario_creacion", SqlDbType.VarChar).Value = turnosSupervisor.usuario_creacion;
 
                         using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
                         {
@@ -148,6 +148,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                         cmd.Parameters.Add("@usuario", SqlDbType.VarChar).Value = turnossuper.usuario;
                         cmd.Parameters.Add("@horarioentrada", SqlDbType.VarChar).Value = turnossuper.horarioentrada;
                         cmd.Parameters.Add("@horariosalida", SqlDbType.VarChar).Value = turnossuper.horariosalida;
+                        cmd.Parameters.Add("@usuario_modificacion", SqlDbType.VarChar).Value = turnossuper.usuario_modificacion;
 
                         using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
                         {
@@ -195,7 +196,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@idturnos", SqlDbType.Int).Value = turnossuper.idturnos;
                         cmd.Parameters.Add("@usuario", SqlDbType.VarChar).Value = turnossuper.usuario;
-                       
+                        cmd.Parameters.Add("@usuario_modificacion", SqlDbType.VarChar).Value = turnossuper.usuario_modificacion;
 
                         using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
                         {
@@ -359,6 +360,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                             cmd.Parameters.Add("@idpdv", SqlDbType.Int).Value = turnospdv.idpdv;
                             cmd.Parameters.Add("@puntoventa", SqlDbType.VarChar).Value = turnospdv.puntoventa;
                             cmd.Parameters.Add("@idturnos", SqlDbType.Int).Value = turnospdv.idturnos;
+                            cmd.Parameters.Add("@usuario_creacion", SqlDbType.Int).Value = turnospdv.usuario_creacion;
 
                             using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
                             {
@@ -458,7 +460,8 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@idpdvturno", SqlDbType.Int).Value = turnospdv.idpdvturno;
-                       
+                        cmd.Parameters.Add("@usuario_modificacion", SqlDbType.Int).Value = turnospdv.usuario_modificacion;
+
                         using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
                         {
 

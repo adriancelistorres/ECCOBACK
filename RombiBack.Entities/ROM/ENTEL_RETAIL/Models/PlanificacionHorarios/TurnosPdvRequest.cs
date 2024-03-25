@@ -16,5 +16,7 @@ namespace RombiBack.Entities.ROM.ENTEL_RETAIL.Models.PlanificacionHorarios
 
         public int? idpdvturno { get; set; }
 
+        public string? usuario_creacion { get; set; }
+        public string? usuario_modificacion { get; set; }
     }
 }
