@@ -9,6 +9,7 @@ namespace RombiBack.Entities.ROM.ENTEL_RETAIL.Models.PlanificacionHorarios
     public class HorarioPlanificadoRequest
     {
         public int? idhorarioplanificado { get; set; }
+        public string? dnisupervisor { get; set; }
         public string? dnipromotor { get; set; }
         public int? idpdv { get; set; }
         public string? puntoventa { get; set; }

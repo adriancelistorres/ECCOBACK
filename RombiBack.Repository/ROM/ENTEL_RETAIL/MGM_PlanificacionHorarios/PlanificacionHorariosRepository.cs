@@ -692,6 +692,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                         {
                             cmd.CommandType = CommandType.StoredProcedure;
                             cmd.Parameters.Add("@dnipromotor", SqlDbType.VarChar).Value = horarioplan.dnipromotor;
+                            cmd.Parameters.Add("@dnisupervisor", SqlDbType.VarChar).Value = horarioplan.dnisupervisor;
                             cmd.Parameters.Add("@idpdv", SqlDbType.Int).Value = horarioplan.idpdv;
                             cmd.Parameters.Add("@puntoventa", SqlDbType.VarChar).Value = horarioplan.puntoventa;
                             cmd.Parameters.Add("@fecha", SqlDbType.Date).Value = horarioplan.fecha;
