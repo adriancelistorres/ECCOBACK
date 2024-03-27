@@ -17,5 +17,6 @@ namespace RombiBack.Entities.ROM.ENTEL_RETAIL.Models.PlanificacionHorarios
         public string? horariosalida { get; set; }
         public string? descripcion { get; set; }
         public string? usuario_creacion { get; set; }
+        public int? activarcbo { get; set; }
     }
 }

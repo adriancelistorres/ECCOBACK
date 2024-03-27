@@ -767,6 +767,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                                     horarioapln.horariosalida = reader.GetString(reader.GetOrdinal("horariosalida"));
                                     horarioapln.descripcion = reader.GetString(reader.GetOrdinal("descripcion"));
                                     horarioapln.usuario_creacion = reader.GetString(reader.GetOrdinal("usuario_creacion"));
+                                    horarioapln.activarcbo = reader.GetInt32(reader.GetOrdinal("activarcbo"));
 
                                     response.Add(horarioapln);
                                 }
