@@ -546,11 +546,13 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                 using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
                 {
                     await connection.OpenAsync();
-                    using (SqlCommand command = new SqlCommand("USP_GETPROMOTORSUPERVISORPDV", connection))
+                    using (SqlCommand command = new SqlCommand("USP_GETPROMOTORSUPERVISORPDV_PRUEBATEST", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.Add("@usuario", SqlDbType.VarChar).Value = promotorsuperpdv.usuario;
+                        command.Parameters.Add("@dnisupervisor", SqlDbType.VarChar).Value = promotorsuperpdv.usuario;
                         command.Parameters.Add("@idpuntoventarol", SqlDbType.Int).Value = promotorsuperpdv.idpuntoventarol;
+                        command.Parameters.Add("@fechainicio", SqlDbType.VarChar).Value = promotorsuperpdv.fechainicio;
+                        command.Parameters.Add("@fechafin", SqlDbType.VarChar).Value = promotorsuperpdv.fechafin;
 
                         using (SqlDataReader reader = await command.ExecuteReaderAsync())
                         {
