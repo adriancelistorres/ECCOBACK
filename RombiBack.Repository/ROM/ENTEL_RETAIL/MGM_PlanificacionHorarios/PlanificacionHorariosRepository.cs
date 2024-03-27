@@ -802,7 +802,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                     using (SqlCommand command = new SqlCommand("USP_REPORTGETSEMANA_ACTUAL", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.Add("@usuario_creacion", SqlDbType.VarChar).Value = reporte.usuario;
+                        command.Parameters.Add("@dnisupervisor", SqlDbType.VarChar).Value = reporte.usuario;
                         using (SqlDataReader reader = await command.ExecuteReaderAsync())
                         {
                             if (reader.HasRows)
@@ -854,7 +854,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                     using (SqlCommand command = new SqlCommand("USP_REPORTGETSEMANA_ANTERIOR", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.Add("@usuario_creacion", SqlDbType.VarChar).Value = reporte.usuario;
+                        command.Parameters.Add("@dnisupervisor", SqlDbType.VarChar).Value = reporte.usuario;
                         using (SqlDataReader reader = await command.ExecuteReaderAsync())
                         {
                             if (reader.HasRows)
