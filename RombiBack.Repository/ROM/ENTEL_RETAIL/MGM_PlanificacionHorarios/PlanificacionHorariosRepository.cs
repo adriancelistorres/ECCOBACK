@@ -702,6 +702,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                             cmd.Parameters.Add("@horariosalida", SqlDbType.VarChar).Value = horarioplan.horariosalida;
                             cmd.Parameters.Add("@descripcion", SqlDbType.VarChar).Value = horarioplan.descripcion;
                             cmd.Parameters.Add("@usuario_creacion", SqlDbType.VarChar).Value = horarioplan.usuario_creacion;
+                            cmd.Parameters.Add("@activarcbo", SqlDbType.Int).Value = horarioplan.activarcbo;
 
                             using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
                             {
@@ -768,6 +769,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                                     horarioapln.descripcion = reader.GetString(reader.GetOrdinal("descripcion"));
                                     horarioapln.usuario_creacion = reader.GetString(reader.GetOrdinal("usuario_creacion"));
                                     horarioapln.activarcbo = reader.GetInt32(reader.GetOrdinal("activarcbo"));
+                                    horarioapln.estado = reader.GetInt32(reader.GetOrdinal("estado"));
 
                                     response.Add(horarioapln);
                                 }
