@@ -29,12 +29,15 @@ namespace RombiBack.Services.ROM.SEGURIDAD.MGM_Accesos
             return respuesta;
         }
 
-
-     
-
         public async Task<Respuesta> PostAccesos(AccesosRequest accs)
         {
             var respuesta = await _accesosRepository.PostAccesos(accs);
+            return respuesta;
+        }
+
+        public async Task<Accesos> GetSegUsuario(string usuario)
+        {
+            var respuesta = await _accesosRepository.GetSegUsuario(usuario);
             return respuesta;
         }
     }

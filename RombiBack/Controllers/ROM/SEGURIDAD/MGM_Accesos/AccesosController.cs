@@ -33,5 +33,12 @@ namespace RombiBack.Controllers.ROM.SEGURIDAD.MGM_Accesos
             return Ok(rpt);
         }
 
+        [HttpPost("GetSegUsuario")]
+        public async Task<IActionResult> GetSegUsuario([FromBody] string usuario)
+        {
+            var rpt = await _accesosServices.GetSegUsuario(usuario);
+            return Ok(rpt);
+        }
+
     }
 }

@@ -12,6 +12,8 @@ namespace RombiBack.Repository.ROM.SEGURIDAD.MGM_Accesos
     {
         Task<List<Accesos>> GetAccesos();
         Task<Respuesta> PostAccesos(AccesosRequest accs);
+        Task<Accesos> GetSegUsuario(string usuario);
+
 
     }
 }

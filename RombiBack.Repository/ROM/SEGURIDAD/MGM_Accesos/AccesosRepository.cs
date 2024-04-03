@@ -68,6 +68,8 @@ namespace RombiBack.Repository.ROM.SEGURIDAD.MGM_Accesos
             }
         }
 
+ 
+
         public async Task<Respuesta> PostAccesos(AccesosRequest accs)
         {
             try
@@ -100,6 +102,50 @@ namespace RombiBack.Repository.ROM.SEGURIDAD.MGM_Accesos
                     }
                 }
 
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627 || ex.Number == 2601)
+                {
+                    // Código 2627 y 2601: Violación de restricción de clave única
+                    throw new InvalidOperationException("Ya existe un turno con el mismo horario para este usuario.");
+                }
+                else
+                {
+                    // Otros errores de base de datos
+                    throw new InvalidOperationException("Ocurrió un error al insertar el turno.");
+                }
+            }
+        }
+
+        public async Task<Accesos> GetSegUsuario(string usuario)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("USP_GETSEGUSUARIO", connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@usuario", SqlDbType.VarChar).Value = usuario;
+
+                        using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
+                        {
+
+                            Accesos respuesta = new Accesos();
+                            while (await rdr.ReadAsync())
+                            {
+                                respuesta.usuario = rdr.GetString(rdr.GetOrdinal("usuario"));
+                                respuesta.nombrecompleto = rdr.GetString(rdr.GetOrdinal("nombrecompleto"));
+
+                            }
+
+                            return respuesta;
+                        }
+                    }
+                }
             }
             catch (SqlException ex)
             {
