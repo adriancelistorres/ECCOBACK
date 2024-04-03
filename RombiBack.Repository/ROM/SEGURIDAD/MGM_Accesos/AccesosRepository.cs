@@ -81,7 +81,7 @@ namespace RombiBack.Repository.ROM.SEGURIDAD.MGM_Accesos
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@idperfil", SqlDbType.Int).Value = accs.idperfil;
                         cmd.Parameters.Add("@dni", SqlDbType.VarChar).Value = accs.dni;
-                        cmd.Parameters.Add("@usuariocreacion", SqlDbType.VarChar).Value = accs.usuariocreacion;
+                        cmd.Parameters.Add("@usuario_creacion", SqlDbType.VarChar).Value = accs.usuario_creacion;
                       
                         using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
                         {

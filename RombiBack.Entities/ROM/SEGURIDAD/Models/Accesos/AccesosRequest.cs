@@ -11,7 +11,7 @@ namespace RombiBack.Entities.ROM.SEGURIDAD.Models.Accesos
         public int? idperfil { get; set; }
         //public int? idperfiles { get; set; }
         public string? dni { get; set; }
-        public string? usuariocreacion { get; set; }
+        public string? usuario_creacion { get; set; }
         //public int? estado { get; set; }
     }
 }
