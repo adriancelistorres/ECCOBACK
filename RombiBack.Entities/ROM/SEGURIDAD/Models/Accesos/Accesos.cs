@@ -10,6 +10,8 @@ namespace RombiBack.Entities.ROM.SEGURIDAD.Models.Accesos
     {
         public int? idacceso { get; set; }
         //public int? idperfiles { get; set; }
+        public string? usuario { get; set; }
+
         public string? dni { get; set; }
         public string? perfil { get; set; }
         public string ?nombrecompleto { get; set; }
