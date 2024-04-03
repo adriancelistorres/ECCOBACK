@@ -546,7 +546,7 @@ namespace RombiBack.Repository.ROM.ENTEL_RETAIL.MGM_PlanificacionHorarios
                 using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
                 {
                     await connection.OpenAsync();
-                    using (SqlCommand command = new SqlCommand("USP_GETPROMOTORSUPERVISORPDV_PRUEBATEST", connection))
+                    using (SqlCommand command = new SqlCommand("USP_GETPROMOTORSUPERVISORPDV", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.Add("@dnisupervisor", SqlDbType.VarChar).Value = promotorsuperpdv.dnisupervisor;
