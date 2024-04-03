@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <Folder Include="ROM\ENTEL_TPF\" />
+    <Folder Include="ROM\SEGURIDAD\MGM_Perfiles\" />
   </ItemGroup>
 
   <ItemGroup>
