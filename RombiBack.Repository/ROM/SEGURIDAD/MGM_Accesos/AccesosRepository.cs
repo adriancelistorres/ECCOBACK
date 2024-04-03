@@ -67,5 +67,53 @@ namespace RombiBack.Repository.ROM.SEGURIDAD.MGM_Accesos
                 return null;
             }
         }
+
+        public async Task<Respuesta> PostAccesos(AccesosRequest accs)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("USP_POSTACCESOS", connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idperfil", SqlDbType.Int).Value = accs.idperfil;
+                        cmd.Parameters.Add("@dni", SqlDbType.VarChar).Value = accs.dni;
+                        cmd.Parameters.Add("@usuariocreacion", SqlDbType.VarChar).Value = accs.usuariocreacion;
+                      
+                        using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
+                        {
+
+                            Respuesta respuesta = new Respuesta();
+                            while (await rdr.ReadAsync())
+                            {
+                                respuesta.Mensaje = rdr.GetString(rdr.GetOrdinal("Mensaje"));
+
+                                // Puedes manejar múltiples filas si es necesario
+                                // Por ejemplo, almacenar cada resultado en una lista
+                            }
+
+                            return respuesta;
+                        }
+                    }
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627 || ex.Number == 2601)
+                {
+                    // Código 2627 y 2601: Violación de restricción de clave única
+                    throw new InvalidOperationException("Ya existe un turno con el mismo horario para este usuario.");
+                }
+                else
+                {
+                    // Otros errores de base de datos
+                    throw new InvalidOperationException("Ocurrió un error al insertar el turno.");
+                }
+            }
+        }
     }
 }

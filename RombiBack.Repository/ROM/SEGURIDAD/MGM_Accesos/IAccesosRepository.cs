@@ -11,5 +11,7 @@ namespace RombiBack.Repository.ROM.SEGURIDAD.MGM_Accesos
     public interface IAccesosRepository
     {
         Task<List<Accesos>> GetAccesos();
+        Task<Respuesta> PostAccesos(AccesosRequest accs);
+
     }
 }
