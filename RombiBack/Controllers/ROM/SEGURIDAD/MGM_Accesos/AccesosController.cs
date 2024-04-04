@@ -40,5 +40,13 @@ namespace RombiBack.Controllers.ROM.SEGURIDAD.MGM_Accesos
             return Ok(rpt);
         }
 
+        [HttpGet("GetPerfiles")]
+        public async Task<IActionResult> GetPerfiles()
+        {
+
+            var rpt = await _accesosServices.GetPerfiles();
+            return Ok(rpt);
+        }
+
     }
 }

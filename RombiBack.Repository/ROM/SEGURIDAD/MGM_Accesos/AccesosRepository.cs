@@ -8,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RombiBack.Entities.ROM.SEGURIDAD.Models.Perfiles;
 
 namespace RombiBack.Repository.ROM.SEGURIDAD.MGM_Accesos
 {
@@ -159,6 +160,51 @@ namespace RombiBack.Repository.ROM.SEGURIDAD.MGM_Accesos
                     // Otros errores de base de datos
                     throw new InvalidOperationException("Ocurrió un error al insertar el turno.");
                 }
+            }
+        }
+
+        public async Task<List<Perfiles>> GetPerfiles()
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+
+                    using (SqlCommand command = new SqlCommand("USP_GETPERFILES", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (reader.HasRows)
+                            {
+                                List<Perfiles> response = new List<Perfiles>();
+
+                                while (await reader.ReadAsync())
+                                {
+                                    Perfiles perf = new Perfiles();
+                                    perf.idperfiles = reader.GetInt32(reader.GetOrdinal("idperfiles"));
+                                    perf.nombre = reader.GetString(reader.GetOrdinal("nombre"));
+
+                                    response.Add(perf);
+                                }
+
+                                return response;
+                            }
+                            else
+                            {
+                                // No se encontraron resultados
+                                return new List<Perfiles>(); // Devuelve una lista vacía en lugar de null
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                return null;
             }
         }
     }
