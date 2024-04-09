@@ -9,7 +9,7 @@ namespace RombiBack.Entities.ROM.SEGURIDAD.Models.Accesos
     public class Accesos
     {
         public int? idacceso { get; set; }
-        //public int? idperfiles { get; set; }
+        public int? idperfiles { get; set; }
         public string? usuario { get; set; }
 
         public string? dni { get; set; }

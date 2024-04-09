@@ -35,6 +35,12 @@ namespace RombiBack.Services.ROM.SEGURIDAD.MGM_Accesos
             var respuesta = await _accesosRepository.PostAccesos(accs);
             return respuesta;
         }
+        public async Task<Respuesta> DeleteAccesos(AccesosRequest accs)
+        {
+            var respuesta = await _accesosRepository.DeleteAccesos(accs);
+            return respuesta;
+        }
+
 
         public async Task<Accesos> GetSegUsuario(string usuario)
         {

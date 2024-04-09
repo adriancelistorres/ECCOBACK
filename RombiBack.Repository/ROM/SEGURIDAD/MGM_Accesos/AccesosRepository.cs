@@ -47,7 +47,7 @@ namespace RombiBack.Repository.ROM.SEGURIDAD.MGM_Accesos
                                     accs.dni = reader.GetString(reader.GetOrdinal("dni"));
                                     accs.perfil = reader.GetString(reader.GetOrdinal("perfil"));
                                     accs.nombrecompleto = reader.GetString(reader.GetOrdinal("nombrecompleto"));
-                                   
+                                    accs.idperfiles = reader.GetInt32(reader.GetOrdinal("idperfiles"));
 
                                     response.Add(accs);
                                 }
@@ -82,10 +82,60 @@ namespace RombiBack.Repository.ROM.SEGURIDAD.MGM_Accesos
                     using (SqlCommand cmd = new SqlCommand("USP_POSTACCESOS", connection))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@idperfil", SqlDbType.Int).Value = accs.idperfil;
+                        cmd.Parameters.Add("@idperfil", SqlDbType.Int).Value = accs.idperfiles;
                         cmd.Parameters.Add("@dni", SqlDbType.VarChar).Value = accs.dni;
                         cmd.Parameters.Add("@usuario_creacion", SqlDbType.VarChar).Value = accs.usuario_creacion;
                       
+                        using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
+                        {
+
+                            Respuesta respuesta = new Respuesta();
+                            while (await rdr.ReadAsync())
+                            {
+                                respuesta.Mensaje = rdr.GetString(rdr.GetOrdinal("Mensaje"));
+
+                                // Puedes manejar múltiples filas si es necesario
+                                // Por ejemplo, almacenar cada resultado en una lista
+                            }
+
+                            return respuesta;
+                        }
+                    }
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627 || ex.Number == 2601)
+                {
+                    // Código 2627 y 2601: Violación de restricción de clave única
+                    throw new InvalidOperationException("Ya existe un turno con el mismo horario para este usuario.");
+                }
+                else
+                {
+                    // Otros errores de base de datos
+                    throw new InvalidOperationException("Ocurrió un error al insertar el turno.");
+                }
+            }
+        }
+
+
+
+        public async Task<Respuesta> DeleteAccesos(AccesosRequest accs)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_dbConnection.GetConnectionROMBI()))
+                {
+                    await connection.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("USP_DELETEACCESOS", connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idacceso", SqlDbType.Int).Value = accs.idacceso;
+                        cmd.Parameters.Add("@dni", SqlDbType.VarChar).Value = accs.dni;
+                        cmd.Parameters.Add("@usuario_modificacion", SqlDbType.VarChar).Value = accs.usuario_modificacion;
+
                         using (SqlDataReader rdr = await cmd.ExecuteReaderAsync())
                         {
 

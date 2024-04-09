@@ -33,6 +33,13 @@ namespace RombiBack.Controllers.ROM.SEGURIDAD.MGM_Accesos
             return Ok(rpt);
         }
 
+        [HttpPost("DeleteAccesos")]
+        public async Task<IActionResult> DeleteAccesos([FromBody] AccesosRequest accs)
+        {
+            var rpt = await _accesosServices.DeleteAccesos(accs);
+            return Ok(rpt);
+        }
+
         [HttpPost("GetSegUsuario")]
         public async Task<IActionResult> GetSegUsuario([FromBody] string usuario)
         {
